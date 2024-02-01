@@ -1,7 +1,8 @@
 import datetime
 from typing import Optional
 
-from pydantic import dataclasses
+# from pydantic import dataclasses
+import dataclasses
 from enum import Enum
 
 
@@ -31,17 +32,17 @@ class CouponIssueException(CouponException):
 
 @dataclasses.dataclass
 class CouponEntity:
-    id: int = dataclasses.Field(default=None)
-    title: str = dataclasses.Field(default=None)
-    coupon_types: str = dataclasses.Field(default=None)
-    total_quantity: Optional[int] = dataclasses.Field(default=None)
-    issued_quantity: int = dataclasses.Field(default=None)
-    discount_amount: int = dataclasses.Field(default=None)
-    min_available_amount: int = dataclasses.Field(default=None)
-    date_issue_start: datetime.datetime = dataclasses.Field(default=None)
-    date_issue_end: datetime.datetime = dataclasses.Field(default=None)
-    date_created: datetime.datetime = dataclasses.Field(default=datetime.datetime.now())
-    date_updated: datetime.datetime = dataclasses.Field(default=datetime.datetime.now())
+    id: int = dataclasses.field(default=None)
+    title: str = dataclasses.field(default=None)
+    coupon_type: str = dataclasses.field(default=None)
+    total_quantity: Optional[int] = dataclasses.field(default=None)
+    issued_quantity: int = dataclasses.field(default=None)
+    discount_amount: int = dataclasses.field(default=0)
+    min_available_amount: int = dataclasses.field(default=0)
+    date_issue_start: datetime.datetime = dataclasses.field(default=None)
+    date_issue_end: datetime.datetime = dataclasses.field(default=None)
+    date_created: datetime.datetime = dataclasses.field(default=datetime.datetime.now())
+    date_updated: datetime.datetime = dataclasses.field(default=datetime.datetime.now())
 
     def avaliable_issue_quantitiy(self) -> bool:
         """ 발급 수량 검증 """

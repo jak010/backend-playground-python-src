@@ -22,5 +22,9 @@ CREATE TABLE `coupon_issues` (
     `date_used` DATETIME(6) NULL COMMENT '사용 일자',
     `date_created` DATETIME(6) NOT NULL,
     `date_updated` DATETIME(6) NOT NULL COMMENT '업데이트 일자',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `coupon_issue_index` (`coupon_id`, `user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '쿠폰 발급 내역';
+
+
+CREATE DATABASE IF NOT EXISTS test_coupons;

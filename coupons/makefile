@@ -1,4 +1,11 @@
 
+orm:
+	sqlacodegen mysql+pymysql://root:1234@localhost:9501/coupons > ./config/orm.py
+
+orm.table:
+	sqlacodegen tables mysql+pymysql://root:1234@localhost:9501/coupons > ./config/orm_tables.py
+
+
 run.local:
 	uvicorn application:coupon_issurance_application --reload
 
