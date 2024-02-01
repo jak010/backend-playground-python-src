@@ -8,6 +8,9 @@ from enum import Enum
 class ErroCode(Enum):
     INVALID_COUPON_ISSUE_QUANTITY = 1
     INVALID_COUPON_ISSUE_DATE = 2
+    COUPON_NOT_EXIST = 3
+
+    DUPLICATE_COUPON_ISSUE = 4
 
 
 class CouponException(Exception):
