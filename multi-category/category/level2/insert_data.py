@@ -1,7 +1,7 @@
 import pymysql
 import uuid
 import random
-from design.database.libs.context import Context
+from libs.context import Context
 
 context = Context()
 

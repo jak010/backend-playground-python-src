@@ -1,4 +1,4 @@
-from design.database.libs.context import Context
+from libs.context import Context
 
 
 class ProductEntity:
