@@ -28,3 +28,6 @@ CREATE TABLE `coupon_issues` (
 
 
 CREATE DATABASE IF NOT EXISTS test_coupons;
+
+
+INSERT INTO coupons.coupons (id, title, coupon_type, total_quantity, issued_quantity, discount_amount, min_available_amount, date_issue_start, date_issue_end, date_created, date_updated) VALUES(1, '네고왕 선착순 쿠폰', '1', 100, 0, 100000, 110000, '2024-02-01 00:00:00', '2024-02-10 00:00:00', '2024-02-03 00:00:00', '2024-02-03 00:00:00');

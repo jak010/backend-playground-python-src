@@ -24,11 +24,11 @@ class CouponIssueRepository:
                 ErroCode.DUPLICATE_COUPON_ISSUE.value,
                 message=f"중복"
             )
-
+        self.session.commit()
         return coupon_issue_entity
 
     def find_first_coupon_issue(self, coupon_id: int, user_id: int) -> Optional[CouponIssueEntity]:
         return self.session.query(CouponIssueEntity) \
             .filter(CouponIssueEntity.coupon_id == coupon_id) \
-            .filter(CouponIssueEntity.user_id == user_id)\
+            .filter(CouponIssueEntity.user_id == user_id) \
             .one_or_none()

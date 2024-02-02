@@ -54,7 +54,7 @@ class CouponEntity:
         """ 쿠폰 발급 기간 검증 """
         import datetime
         now = datetime.datetime.now()
-        return self.date_issue_start < now < self.date_issue_end
+        return self.date_issue_start <= now <= self.date_issue_end
 
     def issue(self):
         if not self.avaliable_issue_quantitiy():
