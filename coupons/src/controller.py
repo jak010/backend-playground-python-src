@@ -16,7 +16,7 @@ class CoutponIssueRequestDto(BaseModel):
     coupon_id: int = Field()
 
 
-@root_router.post(path="")
+@root_router.post(path="/issue")
 def coupon_issurance(
         request: CoutponIssueRequestDto,
         service: CouPonIssueService = Depends(CouPonIssueService)

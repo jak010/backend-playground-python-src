@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  master:
+    image: locustio/locust
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./:/mnt/locust
+    command: -f /mnt/locust/locustfile-issue-v1.py --master -H http://127.0.0.1:8000
+  worker:
+    image: locustio/locust
+    volumes:
+      - ./:/mnt/locust
+    command: -f /mnt/locust/locustfile-issue-v1.py --worker --master-host master
