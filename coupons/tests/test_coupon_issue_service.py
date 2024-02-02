@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 
 from config import orm
 from config.settings import bootstrapping
-from config.settings import test_url
+from config.database import TestDataBaseConnection
 from src.entity import CouponIssueEntity
 from src.entity.coupon_entity import CouponIssueException, CouponEntity, ErroCode
 from src.repository.coupon_issue_repository import CouponIssueRepository
@@ -17,7 +17,7 @@ from src.service.coupon_service import CouPonIssueService
 class TestCouPonIssueService(TestCase):
 
     def setUp(self) -> None:
-        self.test_engine = engine.create_engine(test_url, echo=True)
+        self.test_engine = engine.create_engine(TestDataBaseConnection.get_url(), echo=True)
         self.test_session = scoped_session(sessionmaker(
             bind=self.test_engine,
             expire_on_commit=False,
