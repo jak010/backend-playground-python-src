@@ -1,5 +1,7 @@
 version: '3'
 services:
+
+
   coupons_db:
     image: mysql:5.7-debian
     platform: linux/amd64
