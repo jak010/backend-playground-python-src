@@ -1,17 +1,8 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
-from config import orm
+from config.settings import lifespan
 from src.controller import root_router
-from src.entity import CouponEntity, CouponIssueEntity
-
-
-def bootstrapping():
-    from sqlalchemy.orm import registry
-    orm_mapping = registry()
-    orm_mapping.map_imperatively(CouponEntity, orm.Coupon)
-    orm_mapping.map_imperatively(CouponIssueEntity, orm.CouponIssue)
-    return orm_mapping
 
 
 def exception_handler(req, exc):
@@ -21,7 +12,8 @@ def exception_handler(req, exc):
 
 class CouponIssuranceApplication:
     app = FastAPI(
-        title="쿠폰 발급 API"
+        title="쿠폰 발급 API",
+        lifespan=lifespan
     )
 
     @classmethod
@@ -30,8 +22,6 @@ class CouponIssuranceApplication:
 
     @classmethod
     def run_servier(cls, *args, **kwargs):
-        bootstrapping()
-
         cls.exception_handler()
         cls.app.include_router(root_router)
 

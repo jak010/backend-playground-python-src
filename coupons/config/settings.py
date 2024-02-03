@@ -1,3 +1,4 @@
+from fastapi import FastAPI
 import functools
 import os
 import contextlib
@@ -48,29 +49,31 @@ def bootstrapping():
     return orm_mapping
 
 
-def transactional(func: Callable):
+def transactional(func: Callable):  # XXX: transactionl 임시구현, 이 방법은 type hint가 적용이 안됨
     @functools.wraps(func)
     def _wrapper(*args, **kwargs):
-
         try:
             result = func(*args, **kwargs)
             return result
         except Exception as e:
             db_session.rollback()
-            raise  e
+            raise e
         finally:
             db_session.commit()
             db_session.close()
 
-    # try:
-    #     result = await func(*args, **kwargs)
-    #     return result
-    # except Exception as e:
-    #     session.rollback()
-    #     raise e
-    # finally:
-    #     session.flush()
-    #     session.commit()
-    #     session.close()
-
     return _wrapper
+
+
+from contextlib import asynccontextmanager
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    db_session.execute("select 1;")  # session bump
+
+    registry = bootstrapping()
+
+    yield
+
+    registry.dispose()
