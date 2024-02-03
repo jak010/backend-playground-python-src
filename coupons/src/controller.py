@@ -26,7 +26,7 @@ def coupon_issurance(
     except CouponIssueException as e:
         return JSONResponse(status_code=200, content={
             "is_success": False,
-            "message": e.message
+            "message": str(e.message)
         })
 
     UVICORN_SYSOUT_LOGGER.debug(f"쿠폰 발급 완료. coupon_id:{request.coupon_id}, user_id:{request.user_id}")

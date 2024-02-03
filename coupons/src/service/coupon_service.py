@@ -6,8 +6,8 @@ from config.settings import db_session
 
 
 class CouPonIssueService:
-    coupon_repository = CouponRepository(db_session)
-    coupon_issue_repository = CouponIssueRepository(db_session)
+    coupon_repository = CouponRepository()
+    coupon_issue_repository = CouponIssueRepository()
 
     def issue_save(self):
         coupon_issue = CouponIssueEntity(coupon_id=1, user_id=2)

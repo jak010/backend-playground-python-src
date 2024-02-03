@@ -1,15 +1,19 @@
+from fastapi import Depends
 from sqlalchemy import exc
 from sqlalchemy.orm import Session
 
 from src.entity.coupon_entity import CouponEntity, CouponIssueException, ErroCode
 
+from config.settings import db_session
+
 
 class CouponRepository:
 
-    def __init__(self, session=None):
+    def __init__(self, session: Session = db_session):
         self.session: Session = session
 
     def find_by_id(self, coupon_id: int) -> CouponEntity:
+
         query = self.session.query(CouponEntity).filter(CouponEntity.id == coupon_id)
         query = query.one_or_none()
 

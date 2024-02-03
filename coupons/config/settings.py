@@ -1,5 +1,5 @@
 import os
-
+import contextlib
 from dotenv import load_dotenv
 from sqlalchemy import engine
 from sqlalchemy.orm import sessionmaker, scoped_session, Session
@@ -23,15 +23,14 @@ db_engine = engine.create_engine(
     pool_pre_ping=True,
     pool_recycle=5,
     pool_size=5,
-    pool_timeout=15,
-    echo=True,
+    pool_timeout=15
 )
 
 db_session: Session = scoped_session(sessionmaker(
     bind=db_engine,
     expire_on_commit=False,
     autocommit=False,
-    autoflush=False,
+    autoflush=False
 ))
 
 
