@@ -14,7 +14,7 @@ class CouponRepository:
 
     def find_by_id(self, coupon_id: int) -> CouponEntity:
 
-        query = self.session.query(CouponEntity).filter(CouponEntity.id == coupon_id)
+        query = self.session.query(CouponEntity).with_for_update().filter(CouponEntity.id == coupon_id)  # Record Lock
         query = query.one_or_none()
 
         if query is not None:

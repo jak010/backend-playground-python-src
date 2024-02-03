@@ -5,10 +5,13 @@ orm:
 # local
 
 run.local:
+	uvicorn application:coupon_issurance_application --reload
+
+run.local2:
 	uvicorn application:coupon_issurance_application --workers 4 --limit-concurrency 200 --timeout-keep-alive 10  --log-config ./log.ini --reload
 
 run.gunicorn:
-	gunicorn application:coupon_issurance_application --worker-class uvicorn.workers.UvicornWorker -w 8 -t 10 --max-requests 250  --max-requests-jitter 250
+	gunicorn application:coupon_issurance_application --worker-class uvicorn.workers.UvicornWorker -w 20 -t 60 --max-requests 250  --max-requests-jitter 250 --preload
 
 ## Deploy
 
@@ -22,4 +25,4 @@ run.docker: run.docker.db run.docker.app
 
 # Test Command
 load.test:
-	locust -f ./load-test/locustfile-issue-v1.py --host=http://127.0.0.1:8000
+	locust -f ./load-test/locustfile-issue-v1.py --host=http://127.0.0.1:8000 --processes 3

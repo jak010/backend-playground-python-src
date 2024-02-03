@@ -2,7 +2,7 @@ from src.entity.coupon_entity import CouponIssueException, ErroCode, CouponEntit
 from src.entity.coupon_issue_entity import CouponIssueEntity
 from src.repository import CouponRepository, CouponIssueRepository
 
-from config.settings import db_session
+from config.settings import db_session, transactional
 
 
 class CouPonIssueService:
@@ -13,6 +13,7 @@ class CouPonIssueService:
         coupon_issue = CouponIssueEntity(coupon_id=1, user_id=2)
         self.coupon_issue_repository.save(coupon_issue)
 
+    @transactional
     def issue(self, coupon_id: int, user_id: int):
         coupon = self.find_coupon(coupon_id=coupon_id)
         coupon.issue()

@@ -24,8 +24,6 @@ class CouponIssueRepository:
 
         try:
             self.session.add(coupon_issue_entity)
-            self.session.flush()
-
         except exc.IntegrityError as e:
             raise CouponIssueException(
                 ErroCode.DUPLICATE_COUPON_ISSUE.value,
@@ -34,7 +32,6 @@ class CouponIssueRepository:
         except Exception as e:
             raise e
 
-        self.session.commit()
         return coupon_issue_entity
 
     def find_first_coupon_issue(self, coupon_id: int, user_id: int) -> Optional[CouponIssueEntity]:
