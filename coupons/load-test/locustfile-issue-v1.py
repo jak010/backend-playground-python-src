@@ -15,10 +15,8 @@ class CouponIssueV1(FastHttpUser):
             "coupon_id": 1,
         }
         with self.rest("POST", "/api/v1/issue", json=payload) as result:
-            if result.status_code != 200 and result.status_code != 400:
-                result: ResponseContextManager
-
-                print(result.content)
+            if result.status_code == 0:
+                print(result.raise_for_status())
 
         # with self.client.post("/api/v1/issue", json=payload, catch_response=True) as response:
         #     if response.status_code != 200 and response.status_code != 400:

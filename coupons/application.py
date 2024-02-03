@@ -24,16 +24,18 @@ class CouponIssuranceApplication:
         title="쿠폰 발급 API"
     )
 
-    def exception_handler(self):
-        self.app.add_exception_handler(Exception, exception_handler)
+    @classmethod
+    def exception_handler(cls):
+        cls.app.add_exception_handler(Exception, exception_handler)
 
-    def __call__(self, *args, **kwargs):
+    @classmethod
+    def run_servier(cls, *args, **kwargs):
         bootstrapping()
 
-        self.exception_handler()
-        self.app.include_router(root_router)
+        cls.exception_handler()
+        cls.app.include_router(root_router)
 
-        return self.app
+        return cls.app
 
 
-coupon_issurance_application = CouponIssuranceApplication()
+coupon_issurance_application = CouponIssuranceApplication().run_servier()
