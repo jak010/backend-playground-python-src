@@ -13,6 +13,8 @@ class ErroCode(Enum):
 
     DUPLICATE_COUPON_ISSUE = 4
 
+    FIND_COUPON_ISSUE_REQUEST = 5
+
 
 class CouponException(Exception):
     """ CouponException """

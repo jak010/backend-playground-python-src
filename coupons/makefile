@@ -5,7 +5,7 @@ orm:
 # local
 
 run.local:
-	uvicorn application:coupon_issurance_application --reload
+	uvicorn application:coupon_issurance_application --workers 4 --limit-concurrency 200 --reload
 
 run.local2:
 	uvicorn application:coupon_issurance_application --workers 4 --limit-concurrency 200 --timeout-keep-alive 10  --log-config ./log.ini --reload
@@ -26,3 +26,6 @@ run.docker: run.docker.db run.docker.app
 # Test Command
 load.test:
 	locust -f ./load-test/locustfile-issue-v1.py --host=http://127.0.0.1:8000 --processes 3
+
+load.test.async:
+	locust -f ./load-test/locustfile-issueasync-v1.py --host=http://127.0.0.1:8000 --processes 3

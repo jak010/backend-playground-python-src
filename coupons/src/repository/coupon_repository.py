@@ -2,6 +2,8 @@ from fastapi import Depends
 from sqlalchemy import exc
 from sqlalchemy.orm import Session
 
+from functools import cached_property
+
 from src.entity.coupon_entity import CouponEntity, CouponIssueException, ErroCode
 
 from config.settings import db_session
@@ -10,7 +12,11 @@ from config.settings import db_session
 class CouponRepository:
 
     def __init__(self, session: Session = db_session):
-        self.session: Session = session
+        self._session: Session = session
+
+    @cached_property
+    def session(self):
+        return self._session
 
     def find_by_id(self, coupon_id: int) -> CouponEntity:
 

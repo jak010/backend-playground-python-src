@@ -1,5 +1,6 @@
 annotated-types==0.6.0
 anyio==4.2.0
+async-timeout==4.0.3
 blinker==1.7.0
 Brotli==1.1.0
 certifi==2024.2.2
@@ -14,6 +15,7 @@ Flask-Login==0.6.3
 gevent==23.9.1
 geventhttpclient==2.0.11
 greenlet==3.0.3
+gunicorn==21.2.0
 h11==0.14.0
 idna==3.6
 inflect==7.0.0
@@ -23,12 +25,14 @@ locust==2.21.0
 MarkupSafe==2.1.5
 msgpack==1.0.7
 mysqlclient==2.2.1
+packaging==23.2
 psutil==5.9.8
 pydantic==2.6.0
 pydantic_core==2.16.1
 PyMySQL==1.1.0
 python-dotenv==1.0.1
 pyzmq==25.1.2
+redis==5.0.1
 requests==2.31.0
 roundrobin==0.0.4
 six==1.16.0
