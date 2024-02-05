@@ -1,6 +1,6 @@
-import redis
-from functools import cached_property
 import dataclasses
+
+import redis
 
 
 @dataclasses.dataclass
@@ -10,6 +10,7 @@ class CouponIssueRequestDto:
 
     def to_dict(self):
         return dataclasses.asdict(self)
+
 
 class RedisRepository:
 

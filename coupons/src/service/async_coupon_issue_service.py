@@ -1,14 +1,11 @@
 import json
 
-from src.repository.redis_repository import RedisRepository
-import time
-
-from src.utils import CoutponRedisUtils
-from src.entity.coupon_entity import CouponIssueException, ErroCode
-from src.service.coupon_service import CouPonIssueService
-from src.repository.redis_repository import CouponIssueRequestDto
 from src.component.distributed_lock import DistributeLockExecutor
-import redis_lock
+from src.entity.coupon_entity import CouponIssueException, ErroCode
+from src.repository.redis_repository import CouponIssueRequestDto
+from src.repository.redis_repository import RedisRepository
+from src.service.coupon_service import CouPonIssueService
+from src.utils import CoutponRedisUtils
 
 
 class CouponIssueRedisService:
@@ -60,5 +57,3 @@ class AsyncCouponIssueService:
             CoutponRedisUtils.get_issue_request_queue_key(),
             json.dumps(issue_reuqest.to_dict())
         )  # 쿠폰 발급 대기열 큐
-
-        # TODO, ErroCode.FIND_COUPON_ISSUE_REQUEST

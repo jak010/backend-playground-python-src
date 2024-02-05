@@ -5,7 +5,7 @@ orm:
 # local
 
 run.local:
-	uvicorn application:coupon_issurance_application --workers 4 --limit-concurrency 200 --reload
+	uvicorn application:coupon_issurance_application --log-config ./log.ini --reload
 
 run.local2:
 	uvicorn application:coupon_issurance_application --workers 4 --limit-concurrency 200 --timeout-keep-alive 10  --log-config ./log.ini --reload

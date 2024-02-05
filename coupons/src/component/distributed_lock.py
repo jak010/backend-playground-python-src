@@ -1,6 +1,5 @@
 import redis
-from redis_lock import RedisSpinLock, RedisLock
-from typing import Callable
+from redis_lock import RedisLock
 
 
 class DistributeLockExecutor:
@@ -22,13 +21,3 @@ class DistributeLockExecutor:
     def release(self):
         if self._lock:
             self._lock.release()
-
-    # def execute(self, lock_name, wait_time=10, func: Callable = None):
-    #     lock = RedisLock(self.client, lock_name, expire=60)
-    #
-    #     if not lock.acquire():
-    #         raise Exception("Faile To Acquire Lock")
-    #
-    #     result = func()
-    #
-    #     lock.release()

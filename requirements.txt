@@ -17,3 +17,6 @@ SQLAlchemy==1.4.5
 starlette==0.35.1
 typing_extensions==4.9.0
 uvicorn==0.27.0.post1
+
+redis~=5.0.1
+locust~=2.21.0
