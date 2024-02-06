@@ -13,7 +13,7 @@ from src.entity.coupon_entity import CouponEntity
 from src.exceptions import ErroCode, CouponIssueException
 from src.repository.redis_repository import RedisRepository
 from src.service.async_coupon_issue_service import AsyncCouponIssueService
-from src.utils import CoutponRedisUtils
+from src.utils import CouponRedisUtils
 from src.repository.coupon_repository import CouponRepository
 
 test_engine = engine.create_engine(TestDataBaseConnection.get_url(), echo=True)
@@ -57,29 +57,29 @@ class TestAsyncCouponIssueService(TestCase):
 
         # given
         coupon_id = 1
-        user_id = 1
+        user_id = 1000
         coupopn_entity = CouponEntity(
             coupon_type="FIRST_COME_FIRST_SEREVED",
             title="선착순 쿠폰 테스트",
             total_quantity=10,
             issued_quantity=0,
             date_issue_start=datetime.datetime.now() - datetime.timedelta(days=1),
-            date_issue_end=datetime.datetime.now() + datetime.timedelta(days=2)
+            date_issue_end=datetime.datetime.now() + datetime.timedelta(days=1)
         )
-
         self.coupon_repository.save(coupopn_entity=coupopn_entity)
 
-        key = CoutponRedisUtils.get_issue_request_key(coupon_id=coupopn_entity.id)
-
-        for total_quantity in range(0, coupopn_entity.total_quantity):
-            self.redis_repository.sadd(key=key, value=total_quantity)
+        for idx in range(0, coupopn_entity.total_quantity):
+            self.redis_repository.sadd(
+                key=CouponRedisUtils.get_issue_request_key(coupon_id=coupon_id),
+                value=idx
+            )
 
         # when
         with self.assertRaises(CouponIssueException) as e:
             self.sut.issue(coupon_id=coupon_id, user_id=user_id)
 
         # then
-        self.assertEqual(e.exception.error_code.value, ErroCode.INVALID_COUPON_ISSUE_QUANTITY.value)
+        self.assertEqual(ErroCode.INVALID_COUPON_ISSUE_QUANTITY.value, e.exception.error_code.value)
 
     @patch.object(CouponRepository, 'session', test_session)  # XXX: class의 attribute를 patch하기
     def test_issue_3(self):
@@ -98,7 +98,7 @@ class TestAsyncCouponIssueService(TestCase):
 
         self.coupon_repository.save(coupopn_entity=coupopn_entity)
 
-        self.redis_repository.sadd(key=CoutponRedisUtils.get_issue_request_key(coupon_id=coupopn_entity.id),
+        self.redis_repository.sadd(key=CouponRedisUtils.get_issue_request_key(coupon_id=coupopn_entity.id),
                                    value=user_id)
 
         # when
@@ -114,6 +114,7 @@ class TestAsyncCouponIssueService(TestCase):
 
         # given
         user_id = 1
+        coupon_id = 1
         coupopn_entity = CouponEntity(
             coupon_type="FIRST_COME_FIRST_SEREVED",
             title="선착순 쿠폰 테스트",
@@ -125,15 +126,17 @@ class TestAsyncCouponIssueService(TestCase):
 
         self.coupon_repository.save(coupopn_entity=coupopn_entity)
 
-        self.redis_repository.sadd(key=CoutponRedisUtils.get_issue_request_key(coupon_id=coupopn_entity.id),
-                                   value=user_id)
+        self.redis_repository.sadd(
+            key=CouponRedisUtils.get_issue_request_key(coupon_id=coupon_id),
+            value=user_id
+        )
 
         # when
         with self.assertRaises(CouponIssueException) as e:
-            self.sut.issue(coupon_id=coupopn_entity.id, user_id=user_id)
+            self.sut.issue(coupon_id=coupon_id, user_id=user_id)
 
         # then
-        self.assertEqual(ErroCode.INVALID_COUPON_ISSUE_DATE.value, e.exception.error_code.value)
+        self.assertEqual(ErroCode.INVALID_COUPON_ISSUE_DATE, e.exception.error_code)
 
     @patch.object(CouponRepository, 'session', test_session)  # XXX: class의 attribute를 patch하기
     def test_issue_5(self):
@@ -152,7 +155,7 @@ class TestAsyncCouponIssueService(TestCase):
         )
 
         self.coupon_repository.save(coupopn_entity=coupopn_entity)
-        cache_key = CoutponRedisUtils.get_issue_request_key(coupon_id=coupon_id)
+        cache_key = CouponRedisUtils.get_issue_request_key(coupon_id=coupon_id)
 
         # when
         self.sut.issue(coupon_id=coupopn_entity.id, user_id=user_id)
@@ -187,7 +190,7 @@ class TestAsyncCouponIssueService(TestCase):
         self.sut.issue(coupon_id=coupopn_entity.id, user_id=user_id)
 
         # then
-        saved_issue_request = self.redis_repository.lpop(key=CoutponRedisUtils.get_issue_request_queue_key())
+        saved_issue_request = self.redis_repository.lpop(key=CouponRedisUtils.get_issue_request_queue_key())
         data = json.loads(saved_issue_request.decode())
 
         self.assertEqual(coupon_id, data['coupon_id'])

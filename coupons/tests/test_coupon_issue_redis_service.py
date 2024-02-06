@@ -1,8 +1,8 @@
 from unittest import TestCase
 
 from src.repository.redis_repository import RedisRepository
-from src.service.async_coupon_issue_service import CouponIssueRedisService
-from src.utils import CoutponRedisUtils
+from src.service.coupon_issue_redis_service import CouponIssueRedisService
+from src.utils import CouponRedisUtils
 
 
 class TestCouponIssueRedisService(TestCase):
@@ -19,7 +19,7 @@ class TestCouponIssueRedisService(TestCase):
         user_id = 1
 
         # when
-        result = self.sut.available_total_issue_qunatity(
+        result = self.sut.available_total_issue_quantity(
             total_issue_quantity,
             user_id
         )
@@ -36,12 +36,12 @@ class TestCouponIssueRedisService(TestCase):
 
         for x in range(total_issue_quantity):
             self.repository.sadd(
-                key=CoutponRedisUtils.get_issue_request_key(coupon_id=coupon_id),
+                key=CouponRedisUtils.get_issue_request_key(coupon_id=coupon_id),
                 value=x
             )
 
         # when
-        result = self.sut.available_total_issue_qunatity(
+        result = self.sut.available_total_issue_quantity(
             total_issue_quantity,
             coupon_id
         )
@@ -65,7 +65,7 @@ class TestCouponIssueRedisService(TestCase):
         # given
         coupon_id = 1
         user_id = 1
-        self.repository.sadd(CoutponRedisUtils.get_issue_request_key(coupon_id), user_id)
+        self.repository.sadd(CouponRedisUtils.get_issue_request_key(coupon_id), user_id)
 
         # when
         result = self.sut.available_user_issue_quantity(coupon_id=coupon_id, user_id=user_id)

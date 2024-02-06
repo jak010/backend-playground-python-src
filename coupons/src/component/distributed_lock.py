@@ -1,23 +1,28 @@
 import redis
-from redis_lock import RedisLock
+from redis_lock import Lock
+from functools import cached_property
+import os
 
 
 class DistributeLockExecutor:
 
-    def __init__(self):
-        self.host = "127.0.0.1"
-        self.port = 6379
-        self.db = 1
-        self.client = redis.StrictRedis(host=self.host, port=self.port, db=self.db)
+    def __init__(self, lock_name: str):
+        self._lock = Lock(self.client, lock_name)
+        self._is_lock = None
 
-        self._lock = None
+    @property
+    def client(self):
+        host = "127.0.0.1"
+        port = 6379
+        db = 1
+        r = redis.Redis(host=host, port=port, db=db, socket_connect_timeout=1)
+        return r
 
-    def acquire(self, lock_name) -> RedisLock:
-        """ acquire """
-        self._lock = RedisLock(self.client, lock_name, expire_timeout=60)
+    def __enter__(self):
+        self._is_lock = self._lock.acquire(blocking=True)
+        return self
 
-        return self._lock.acquire()
-
-    def release(self):
+    def __exit__(self, exc_type, exc_val, exc_tb):
         if self._lock:
             self._lock.release()
+        self.client.close()

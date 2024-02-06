@@ -12,7 +12,7 @@ from src.entity.coupon_entity import CouponEntity
 from src.exceptions import ErroCode, CouponIssueException
 from src.repository.coupon_issue_repository import CouponIssueRepository
 from src.repository.coupon_repository import CouponRepository
-from src.service.coupon_service import CouPonIssueService
+from src.service.coupon_issue_service import CouPonIssueService
 
 
 class TestCouPonIssueService(TestCase):

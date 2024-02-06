@@ -11,7 +11,7 @@ run.local2:
 	uvicorn application:coupon_issurance_application --workers 4 --timeout-keep-alive 10  --log-config ./log.ini --reload
 
 run.gunicorn:
-	gunicorn application:coupon_issurance_application --worker-class uvicorn.workers.UvicornWorker -w 20 -t 60 --max-requests 250  --max-requests-jitter 250 --preload
+	gunicorn application:coupon_issurance_application --worker-class uvicorn.workers.UvicornH11Worker -w 20 --keep-alive 30  --max-requests-jitter 250 --preload
 
 run.gunicorn2:
 	# https://www.uvicorn.org/deployment/#gunicorn

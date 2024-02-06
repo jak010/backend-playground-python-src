@@ -22,14 +22,14 @@ DATABASE = {
     "DB_NAME": os.environ["DB_NAME"]
 }
 
-CORE = int(os.cpu_count() / 2)
+CORE = int(os.cpu_count())
 
 db_engine = engine.create_engine(
     DevDataBaseConnection.get_url(),
     pool_pre_ping=True,
     pool_recycle=3600,
     pool_size=CORE,
-    max_overflow=CORE + 1,
+    max_overflow=CORE * 2,
     pool_timeout=30,
     echo=True
 )
@@ -55,12 +55,12 @@ def transactional(func: Callable):  # XXX: transactionl 임시구현, 이 방법
     def _wrapper(*args, **kwargs):
         try:
             result = func(*args, **kwargs)
-            return result
-        except CouponIssueException as e:
-            db_session.commit()
-        finally:
             db_session.commit()
             db_session.close()
+            return result
+        except CouponIssueException as e:
+            db_session.rollback()  # XXX: exception이 터질 때는 rollback 처리, 안 그러면 다른 트랜잭션에서 대기하는 경우가 발생함
+            raise e
 
     return _wrapper
 
@@ -70,10 +70,10 @@ from contextlib import asynccontextmanager
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    db_session.execute("select 1;")  # session bump
-
     registry = bootstrapping()
 
     yield
 
+    print("[FASTAPI] END ")
     registry.dispose()
+    db_session.close_all()

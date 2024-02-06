@@ -21,6 +21,7 @@ class CouPonIssueService:
         self.save_coupon_issue(coupon_id=coupon_id, user_id=user_id)
         return coupon
 
+    @transactional
     def find_coupon(self, coupon_id: int) -> CouponEntity:
         try:
             coupon = self.coupon_repository.find_by_id(coupon_id=coupon_id)

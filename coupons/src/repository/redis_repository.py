@@ -29,7 +29,7 @@ class RedisRepository:
     def scard(self, key: str):
         return self.client.scard(key)
 
-    def sismember(self, key, value):
+    def sismember(self, key, value) -> bool:
         return self.client.sismember(key, value)
 
     # queue

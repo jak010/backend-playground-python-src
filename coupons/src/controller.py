@@ -4,7 +4,7 @@ from fastapi.routing import APIRouter
 from pydantic import BaseModel, Field
 
 from config.logger import UVICORN_SYSOUT_LOGGER
-from src.service.coupon_service import CouPonIssueService
+from src.service.coupon_issue_service import CouPonIssueService
 from src.service.async_coupon_issue_service import AsyncCouponIssueService
 
 from src.exceptions import CouponIssueException
@@ -40,7 +40,13 @@ def coupon_issurance_async(
         request: CoutponIssueRequestDto,
         service: AsyncCouponIssueService = Depends(AsyncCouponIssueService)
 ):
-    service.issue(coupon_id=request.coupon_id, user_id=request.user_id)
+    try:
+        service.issue(coupon_id=request.coupon_id, user_id=request.user_id)
+    except CouponIssueException as e:
+        return JSONResponse(status_code=200, content={
+            "is_success": False,
+            "message": str(e.message)
+        })
 
     UVICORN_SYSOUT_LOGGER.debug(f"쿠폰 발급 완료. coupon_id:{request.coupon_id}, user_id:{request.user_id}")
 
