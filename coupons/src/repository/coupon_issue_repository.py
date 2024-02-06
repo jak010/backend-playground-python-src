@@ -5,7 +5,8 @@ from config.settings import db_session
 
 from sqlalchemy.orm import Session
 from sqlalchemy import exc
-from src.entity.coupon_entity import CouponEntity, CouponIssueException, ErroCode
+from src.entity.coupon_entity import CouponEntity
+from src.exceptions import ErroCode, CouponIssueException
 
 from config.settings import db_session
 from functools import cached_property

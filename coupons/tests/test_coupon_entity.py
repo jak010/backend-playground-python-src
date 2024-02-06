@@ -1,7 +1,8 @@
 import datetime
 import unittest
 
-from coupons.src.entity.coupon_entity import CouponEntity, CouponIssueException, ErroCode
+from coupons.src.entity.coupon_entity import CouponEntity
+from src.exceptions import ErroCode, CouponIssueException
 
 
 class TestCouponEntity(unittest.TestCase):

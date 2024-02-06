@@ -9,7 +9,8 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from config import orm
 from config.database import TestDataBaseConnection
 from config.settings import bootstrapping
-from src.entity.coupon_entity import CouponIssueException, ErroCode, CouponEntity
+from src.entity.coupon_entity import CouponEntity
+from src.exceptions import ErroCode, CouponIssueException
 from src.repository.redis_repository import RedisRepository
 from src.service.async_coupon_issue_service import CouponIssueRedisService, AsyncCouponIssueService
 from src.utils import CoutponRedisUtils

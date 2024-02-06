@@ -1,4 +1,5 @@
-from src.entity.coupon_entity import CouponIssueException, ErroCode, CouponEntity
+from src.entity.coupon_entity import CouponEntity
+from src.exceptions import ErroCode, CouponIssueException
 from src.entity.coupon_issue_entity import CouponIssueEntity
 from src.repository import CouponRepository, CouponIssueRepository
 

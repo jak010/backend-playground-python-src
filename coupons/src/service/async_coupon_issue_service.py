@@ -1,7 +1,7 @@
 import json
 
 from src.component.distributed_lock import DistributeLockExecutor
-from src.entity.coupon_entity import CouponIssueException, ErroCode
+from src.exceptions import ErroCode, CouponIssueException
 from src.repository.redis_repository import CouponIssueRequestDto
 from src.repository.redis_repository import RedisRepository
 from src.service.coupon_service import CouPonIssueService

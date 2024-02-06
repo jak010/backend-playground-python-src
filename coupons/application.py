@@ -20,12 +20,11 @@ class CouponIssuranceApplication:
     def exception_handler(cls):
         cls.app.add_exception_handler(Exception, exception_handler)
 
-    @classmethod
-    def run_servier(cls, *args, **kwargs):
-        cls.exception_handler()
-        cls.app.include_router(root_router)
+    def __call__(self, *args, **kwargs):
+        self.exception_handler()
+        self.app.include_router(root_router)
 
-        return cls.app
+        return self.app
 
 
-coupon_issurance_application = CouponIssuranceApplication().run_servier()
+coupon_issurance_application = CouponIssuranceApplication()

@@ -8,7 +8,8 @@ from config import orm
 from config.settings import bootstrapping
 from config.database import TestDataBaseConnection
 from src.entity import CouponIssueEntity
-from src.entity.coupon_entity import CouponIssueException, CouponEntity, ErroCode
+from src.entity.coupon_entity import CouponEntity
+from src.exceptions import ErroCode, CouponIssueException
 from src.repository.coupon_issue_repository import CouponIssueRepository
 from src.repository.coupon_repository import CouponRepository
 from src.service.coupon_service import CouPonIssueService

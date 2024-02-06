@@ -4,7 +4,8 @@ from sqlalchemy.orm import Session
 
 from functools import cached_property
 
-from src.entity.coupon_entity import CouponEntity, CouponIssueException, ErroCode
+from src.entity.coupon_entity import CouponEntity
+from src.exceptions import ErroCode, CouponIssueException
 
 from config.settings import db_session
 

@@ -7,7 +7,7 @@ from config.logger import UVICORN_SYSOUT_LOGGER
 from src.service.coupon_service import CouPonIssueService
 from src.service.async_coupon_issue_service import AsyncCouponIssueService
 
-from src.entity.coupon_entity import CouponIssueException
+from src.exceptions import CouponIssueException
 
 root_router = APIRouter(tags=['API'], prefix='/api/v1')
 

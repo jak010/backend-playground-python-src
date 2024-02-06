@@ -1,15 +1,16 @@
-from fastapi import FastAPI
 import functools
 import os
-import contextlib
 from typing import Callable
+
 from dotenv import load_dotenv
+from fastapi import FastAPI
 from sqlalchemy import engine
 from sqlalchemy.orm import sessionmaker, scoped_session, Session
 
 from config import orm
 from config.database import DevDataBaseConnection
 from src.entity import CouponEntity, CouponIssueEntity
+from src.exceptions import CouponIssueException
 
 load_dotenv()
 
@@ -21,15 +22,15 @@ DATABASE = {
     "DB_NAME": os.environ["DB_NAME"]
 }
 
-CORE = int(os.cpu_count() / 2) + 1
+CORE = int(os.cpu_count() / 2)
 
 db_engine = engine.create_engine(
     DevDataBaseConnection.get_url(),
     pool_pre_ping=True,
-    pool_recycle=5,
+    pool_recycle=3600,
     pool_size=CORE,
-    max_overflow=int(CORE / 2),
-    pool_timeout=10,
+    max_overflow=CORE + 1,
+    pool_timeout=30,
     echo=True
 )
 
@@ -49,15 +50,14 @@ def bootstrapping():
     return orm_mapping
 
 
-def transactional(func: Callable):  # XXX: transactionl 임시구현, 이 방법은 type hint가 적용이 안됨
+def transactional(func: Callable):  # XXX: transactionl 임시구현, 이 방법(decorator)은 type hint가 적용이 안됨
     @functools.wraps(func)
     def _wrapper(*args, **kwargs):
         try:
             result = func(*args, **kwargs)
             return result
-        except Exception as e:
-            db_session.rollback()
-            raise e
+        except CouponIssueException as e:
+            db_session.commit()
         finally:
             db_session.commit()
             db_session.close()
