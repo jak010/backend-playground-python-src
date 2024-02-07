@@ -11,7 +11,7 @@ run.local2:
 	uvicorn application:coupon_issurance_application --workers 4 --timeout-keep-alive 10  --log-config ./log.ini --reload
 
 run.gunicorn:
-	gunicorn application:coupon_issurance_application --worker-class uvicorn.workers.UvicornH11Worker -w 20 --keep-alive 30  --max-requests-jitter 250 --preload
+	gunicorn application:coupon_issurance_application --worker-class uvicorn.workers.UvicornWorker -w 4 --keep-alive 30 --preload
 
 run.gunicorn2:
 	# https://www.uvicorn.org/deployment/#gunicorn
@@ -20,13 +20,9 @@ run.gunicorn2:
 
 ## Deploy
 
-run.docker.db:
-	sudo docker-compose -f ./.docker/docker-compose-db.yml up --remove-orphans
+run.docker.infra:
+	sudo docker-compose -f ./.docker/docker-compose-infra.yml up -d --remove-orphans
 
-run.docker.app:
-	sudo docker-compose -f ./.docker/docker-compose-db.yml up --remove-orphans
-
-run.docker: run.docker.db run.docker.app
 
 # Test Command
 load.test:

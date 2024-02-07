@@ -20,3 +20,4 @@ uvicorn==0.27.0.post1
 
 redis~=5.0.1
 locust~=2.21.0
+python-redis-lock~=4.0.0

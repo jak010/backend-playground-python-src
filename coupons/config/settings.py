@@ -21,6 +21,7 @@ DATABASE = {
     "DB_PORT": int(os.environ["DB_PORT"]),
     "DB_NAME": os.environ["DB_NAME"]
 }
+import redis
 
 CORE = int(os.cpu_count())
 
@@ -28,9 +29,9 @@ db_engine = engine.create_engine(
     DevDataBaseConnection.get_url(),
     pool_pre_ping=True,
     pool_recycle=3600,
-    pool_size=CORE,
-    max_overflow=CORE * 2,
-    pool_timeout=30,
+    pool_size=4,
+    max_overflow=1,
+    pool_timeout=1,
     echo=True
 )
 
@@ -40,6 +41,18 @@ db_session: Session = scoped_session(sessionmaker(
     autocommit=False,
     autoflush=False
 ))
+
+redis_host = "0.0.0.0"
+redis_port = 6379
+redis_connection_pool = redis.ConnectionPool(
+    host=redis_host,
+    port=redis_port,
+    db=1
+)
+
+
+def redis_client():
+    return redis.Redis(connection_pool=redis_connection_pool)
 
 
 def bootstrapping():
@@ -70,6 +83,7 @@ from contextlib import asynccontextmanager
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    import redis_lock
     registry = bootstrapping()
 
     yield
@@ -77,3 +91,5 @@ async def lifespan(app: FastAPI):
     print("[FASTAPI] END ")
     registry.dispose()
     db_session.close_all()
+
+    redis_lock.reset_all(redis_client=redis_client())
