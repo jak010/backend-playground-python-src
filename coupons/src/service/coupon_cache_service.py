@@ -11,3 +11,4 @@ class CouPonCacheServce:
     def get_coupon_cache(self, coupon_id: int) -> CouponRedisEntity:
         coupon = self.coupon_issue_service.find_coupon(coupon_id=coupon_id)
         return CouponRedisEntity.of(coupon=coupon)
+

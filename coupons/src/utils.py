@@ -3,6 +3,7 @@ from functools import wraps
 import redis
 import dataclasses
 from src.entity.coupon_redis_entity import CouponRedisEntity
+from config.settings import redis_client
 
 
 class CouponRedisUtils:
@@ -21,16 +22,12 @@ class Cacheable:
     def __init__(self, cache_name: str):
         self.cache_name = cache_name
 
-        self.host = "127.0.0.1"
-        self.port = 6379
-        self.db = 1
-        self.client = redis.StrictRedis(host=self.host, port=self.port, db=self.db)
+        self.client = redis_client()
 
     def __call__(self, func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             result = func(*args, **kwargs)
-
             if dataclasses.is_dataclass(result):
                 self.client.sadd(self.cache_name, result.to_json())
                 return result

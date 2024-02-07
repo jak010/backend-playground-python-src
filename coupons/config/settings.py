@@ -10,7 +10,8 @@ from sqlalchemy.orm import sessionmaker, scoped_session, Session
 from config import orm
 from config.database import DevDataBaseConnection
 from src.entity import CouponEntity, CouponIssueEntity
-from src.exceptions import CouponIssueException
+from src.exceptions import CouponIssueException, CouponDoesNotExist
+import redis
 
 load_dotenv()
 
@@ -21,7 +22,6 @@ DATABASE = {
     "DB_PORT": int(os.environ["DB_PORT"]),
     "DB_NAME": os.environ["DB_NAME"]
 }
-import redis
 
 CORE = int(os.cpu_count())
 
@@ -29,8 +29,8 @@ db_engine = engine.create_engine(
     DevDataBaseConnection.get_url(),
     pool_pre_ping=True,
     pool_recycle=3600,
-    pool_size=4,
-    max_overflow=1,
+    pool_size=5,
+    max_overflow=10,
     pool_timeout=1,
     echo=True
 )
@@ -51,6 +51,7 @@ redis_connection_pool = redis.ConnectionPool(
 )
 
 
+@functools.cache
 def redis_client():
     return redis.Redis(connection_pool=redis_connection_pool)
 
@@ -64,16 +65,19 @@ def bootstrapping():
 
 
 def transactional(func: Callable):  # XXX: transactionl 임시구현, 이 방법(decorator)은 type hint가 적용이 안됨
+
     @functools.wraps(func)
     def _wrapper(*args, **kwargs):
         try:
             result = func(*args, **kwargs)
             db_session.commit()
-            db_session.close()
             return result
+
         except CouponIssueException as e:
             db_session.rollback()  # XXX: exception이 터질 때는 rollback 처리, 안 그러면 다른 트랜잭션에서 대기하는 경우가 발생함
             raise e
+        finally:
+            db_session.close()
 
     return _wrapper
 
@@ -83,6 +87,9 @@ from contextlib import asynccontextmanager
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    db_session.execute("select 1;")
+    db_session.commit()
+
     import redis_lock
     registry = bootstrapping()
 

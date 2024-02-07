@@ -1,6 +1,7 @@
 import dataclasses
 
 import redis
+from config.settings import redis_client
 
 
 @dataclasses.dataclass
@@ -15,10 +16,7 @@ class CouponIssueRequestDto:
 class RedisRepository:
 
     def __init__(self):
-        self.host = "127.0.0.1"
-        self.port = 6379
-        self.db = 1
-        self.client = redis.StrictRedis(host=self.host, port=self.port, db=self.db)
+        self.client = redis_client()
 
     def zadd(self, key: str, value: dict) -> bool:
         return self.client.zadd(key, value, nx=True)  # NX: 데이터가 없는경우만 처리 , 있는경우 무시

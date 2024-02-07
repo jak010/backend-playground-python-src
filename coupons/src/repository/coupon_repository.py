@@ -1,13 +1,9 @@
-from fastapi import Depends
 from sqlalchemy import exc
 from sqlalchemy.orm import Session
-
 from functools import cached_property
-
-from src.entity.coupon_entity import CouponEntity
-from src.exceptions import ErroCode, CouponIssueException
-
 from config.settings import db_session
+from src.entity.coupon_entity import CouponEntity
+from src.exceptions import ErroCode, CouponIssueException, CouponDoesNotExist
 
 
 class CouponRepository:
@@ -19,14 +15,13 @@ class CouponRepository:
     def session(self):
         return self._session
 
-    def find_by_id(self, coupon_id: int) -> CouponEntity:
-
-        query = self.session.query(CouponEntity).with_for_update().filter(CouponEntity.id == coupon_id)  # Record Lock
+    def find_by_id(self, coupon_id: int, ) -> CouponEntity:
+        query = self.session.query(CouponEntity) \
+            .with_for_update().filter(CouponEntity.id == coupon_id)
         query = query.one_or_none()
-
         if query is not None:
             return query
-        raise Exception("Coupon Does Not Exist")
+        raise Exception()
 
     def save(self, coupopn_entity: CouponEntity):
         try:

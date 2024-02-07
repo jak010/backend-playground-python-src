@@ -15,6 +15,10 @@ class CouponException(Exception):
     """ CouponException """
 
 
+class CouponDoesNotExist(CouponException):
+    """ Find Not Coupon """
+
+
 class CouponIssueException(CouponException):
     """ Coupon Issue Exception"""
 

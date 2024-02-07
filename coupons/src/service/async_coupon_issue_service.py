@@ -24,16 +24,17 @@ class AsyncCouponIssueService:
 
     def issue(self, coupon_id, user_id):
         coupon: CouponRedisEntity = self.coupon_cache_service.get_coupon_cache(coupon_id=coupon_id)
-        coupon.check_issuable_coupon()
+        # coupon.check_issuable_coupon()
 
         # Redis Distribute Lock
-        with DistributeLockExecutor(name=f"coupon_{coupon_id}", redis_client=redis_client(), expire=60, auto_renewal=True):
-            self.coupon_issue_redis_serivce.check_coupon_issue_quantitiy(
-                coupon_redis_entity=coupon,
-                user_id=user_id
-            )
-
-            self.issue_request(coupon_id=coupon.id, user_id=user_id)
+        # XXX: RPS 800 ~ 900 사이 밖에 안나옴
+        # with DistributeLockExecutor(name=f"coupon_{coupon_id}", redis_client=redis_client(), expire=60, auto_renewal=True):
+        #     self.coupon_issue_redis_serivce.check_coupon_issue_quantitiy(
+        #         coupon_redis_entity=coupon,
+        #         user_id=user_id
+        #     )
+        #
+        #     self.issue_request(coupon_id=coupon.id, user_id=user_id)
 
     def issue_request(self, coupon_id, user_id):
         issue_reuqest = CouponIssueRequestDto(coupon_id=coupon_id, user_id=user_id)

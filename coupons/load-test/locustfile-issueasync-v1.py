@@ -15,5 +15,7 @@ class CouponIssueV1(FastHttpUser):
             "coupon_id": 1,
         }
         with self.rest("POST", "/api/v1/issue-async", json=payload) as result:
+            if result.status_code == 400:
+                print(result.raise_for_status())
             if result.status_code == 0:
                 print(result.raise_for_status())

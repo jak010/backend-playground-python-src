@@ -36,12 +36,16 @@ class CouponRedisEntity:
 
     def check_issuable_coupon(self):
         if not self.available_issue_quantity:
-            raise CouponIssueException(ErroCode.INVALID_COUPON_ISSUE_QUANTITY, f"모든 발급 수량이 소진되었습니다. coupon_id : {self.id}")
+            raise CouponIssueException(
+                ErroCode.INVALID_COUPON_ISSUE_QUANTITY,
+                f"모든 발급 수량이 소진되었습니다. coupon_id : {self.id}"
+            )
 
         if not self.available_issue_date():
-            raise CouponIssueException(ErroCode.INVALID_COUPON_ISSUE_DATE,
-                                       f"발급 가능한 일자가 아닙니3다. request : {datetime.datetime.now()}, issueStart: {self.date_issue_start}, issueEnd: {self.date_issue_end}"
-                                       )
+            raise CouponIssueException(
+                ErroCode.INVALID_COUPON_ISSUE_DATE,
+                f"발급 가능한 일자가 아닙니3다. request : {datetime.datetime.now()}, issueStart: {self.date_issue_start}, issueEnd: {self.date_issue_end}"
+            )
 
     def to_json(self) -> dict:
         return json.dumps({
