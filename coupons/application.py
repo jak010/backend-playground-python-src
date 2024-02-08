@@ -20,10 +20,21 @@ class CouponIssuranceApplication:
     def exception_handler(cls):
         cls.app.add_exception_handler(Exception, exception_handler)
 
+    def consumer(self):
+        from src.consumer.coupon_issue_listener import CouponIssueListener
+        from apscheduler.schedulers.background import BackgroundScheduler
+
+        coupon_issue_lister = CouponIssueListener()
+
+        sched = BackgroundScheduler(timezone='Asia/Seoul')
+        sched.add_job(coupon_issue_lister.issue, 'interval', seconds=1, id='test')
+        sched.start()
+
     def __call__(self, *args, **kwargs):
         self.exception_handler()
         self.app.include_router(root_router)
 
+        self.consumer()
         return self.app
 
 

@@ -17,7 +17,7 @@ class CouponRepository:
     def session(self):
         return self._session
 
-    def find_by_id(self, coupon_id: int) -> CouponEntity:
+    def find_by_id_with_lock(self, coupon_id: int) -> CouponEntity:
         query = self.session.query(CouponEntity) \
             .with_for_update() \
             .filter(CouponEntity.id == coupon_id)
@@ -37,3 +37,8 @@ class CouponRepository:
                 message=f"중복"
             )
         return coupopn_entity
+
+    def update(self, coupon: CouponEntity):
+        self.session.query(CouponEntity) \
+            .filter(CouponEntity.id == coupon.id) \
+            .update(coupon.to_dict())

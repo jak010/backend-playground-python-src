@@ -30,3 +30,6 @@ load.test:
 
 load.test.async:
 	locust -f ./load-test/locustfile-issueasync-v1.py --host=http://127.0.0.1:8000 --processes 3
+
+load.test.async.v2:
+	locust -f ./load-test/locustfile-issueasync-v2.py --host=http://127.0.0.1:8000 --processes 3

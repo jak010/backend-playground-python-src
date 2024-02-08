@@ -85,7 +85,7 @@ class TestCouPonIssueService(TestCase):
         self.sut.issue(coupon_id=saved_coupon.id, user_id=user_id)
 
         # then
-        coupon = self.coupon_repository.find_by_id(coupon_id=saved_coupon.id)
+        coupon = self.coupon_repository.find_by_id_with_lock(coupon_id=saved_coupon.id)
         self.assertEqual(coupon.issued_quantity, 1)
 
         coupon_issue = self.coupon_issue_repository.find_first_coupon_issue(

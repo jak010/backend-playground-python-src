@@ -34,10 +34,15 @@ class AsyncCouponIssueService:
                 coupon_redis_entity=coupon,
                 user_id=user_id
             )
-
             self.issue_request(coupon_id=coupon.id, user_id=user_id)
 
     def issue_request(self, coupon_id, user_id):
+        """
+        1. 쿠폰 발급 수량제어
+        2. 중복 발급 요청제어
+        3. 쿠폰 발급 요청 저장
+        4. 쿠폰 발급 큐 적재
+        """
         issue_reuqest = CouponIssueRequestDto(coupon_id=coupon_id, user_id=user_id)
 
         self.repository.client.sadd(CouponRedisUtils.get_issue_request_key(coupon_id), user_id)
