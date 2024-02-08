@@ -43,3 +43,6 @@ class CouponEntity:
                 message=f"발급 가능한 일자가 아님. request:{self.date_created}, issue_start:{self.date_issue_start} issue_end:{self.date_issue_end}")
 
         self.issued_quantity += 1
+
+    def to_dict(self):
+        return dataclasses.asdict(self)

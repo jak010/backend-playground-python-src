@@ -1,6 +1,5 @@
 import dataclasses
 
-import redis
 from config.settings import redis_client
 
 

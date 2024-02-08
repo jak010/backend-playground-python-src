@@ -32,6 +32,12 @@ class CouponRedisEntity:
 
     def available_issue_date(self) -> bool:
         now = datetime.datetime.now()
+
+        if isinstance(self.date_issue_start, str):
+            self.date_issue_start = datetime.datetime.strptime(self.date_issue_start, "%Y-%m-%dT%H:%M:%S")
+        if isinstance(self.date_issue_end, str):
+            self.date_issue_end = datetime.datetime.strptime(self.date_issue_end, "%Y-%m-%dT%H:%M:%S")
+
         return self.date_issue_start < now < self.date_issue_end
 
     def check_issuable_coupon(self):

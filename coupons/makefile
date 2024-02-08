@@ -11,7 +11,7 @@ run.local2:
 	uvicorn application:coupon_issurance_application --workers 4 --timeout-keep-alive 10  --log-config ./log.ini --reload
 
 run.gunicorn:
-	gunicorn application:coupon_issurance_application --worker-class uvicorn.workers.UvicornWorker -w 4  -t 24 --keep-alive 60 --preload --bind 0.0.0.0:8000
+	gunicorn application:coupon_issurance_application --worker-class uvicorn.workers.UvicornWorker -w 11 --keep-alive 60 --preload --bind 0.0.0.0:8000
 
 run.gunicorn2:
 	# https://www.uvicorn.org/deployment/#gunicorn

@@ -3,10 +3,10 @@ from fastapi.responses import JSONResponse
 
 from config.settings import lifespan
 from src.controller import root_router
+import multiprocessing
 
 
 def exception_handler(req, exc):
-    print(req, exc)
     return JSONResponse(status_code=400, content={})
 
 

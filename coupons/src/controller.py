@@ -4,10 +4,9 @@ from fastapi.routing import APIRouter
 from pydantic import BaseModel, Field
 
 from config.logger import UVICORN_SYSOUT_LOGGER
-from src.service.coupon_issue_service import CouPonIssueService
-from src.service.async_coupon_issue_service import AsyncCouponIssueService
-
 from src.exceptions import CouponIssueException
+from src.service.async_coupon_issue_service import AsyncCouponIssueService
+from src.service.coupon_issue_service import CouPonIssueService
 
 root_router = APIRouter(tags=['API'], prefix='/api/v1')
 

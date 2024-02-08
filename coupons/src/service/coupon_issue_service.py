@@ -25,7 +25,7 @@ class CouPonIssueService:
     def find_coupon(self, coupon_id: int) -> CouponEntity:
         try:
             coupon = self.coupon_repository.find_by_id(coupon_id=coupon_id)
-        except CouponDoesNotExist:
+        except Exception:
             raise CouponIssueException(error_code=ErroCode.COUPON_NOT_EXIST.value, message="쿠폰이 존재하지 않습니다.")
         return coupon
 

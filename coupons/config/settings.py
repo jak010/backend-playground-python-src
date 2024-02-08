@@ -2,16 +2,17 @@ import functools
 import os
 from typing import Callable
 
+import redis
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from sqlalchemy import engine
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker, scoped_session, Session
-
+import asyncio
 from config import orm
 from config.database import DevDataBaseConnection
 from src.entity import CouponEntity, CouponIssueEntity
-from src.exceptions import CouponIssueException, CouponDoesNotExist
-import redis
+from src.exceptions import CouponIssueException
 
 load_dotenv()
 
@@ -30,8 +31,8 @@ db_engine = engine.create_engine(
     pool_pre_ping=True,
     pool_recycle=3600,
     pool_size=5,
-    max_overflow=10,
-    pool_timeout=1,
+    max_overflow=5,
+    pool_timeout=10,
     echo=True
 )
 
@@ -41,6 +42,18 @@ db_session: Session = scoped_session(sessionmaker(
     autocommit=False,
     autoflush=False
 ))
+#
+# async_engine = create_async_engine(DevDataBaseConnection.get_url(), echo=True)
+
+# 비동기 세션 팩토리 생성
+# async_session = scoped_session(
+#     sessionmaker(
+#         bind=async_engine,
+#         class_=AsyncSession,
+#         expire_on_commit=False,  # 커밋 후에도 객체를 유지하도록 설정 (옵션),
+#     ),
+#     scopefunc=asyncio.current_task
+# )
 
 redis_host = "0.0.0.0"
 redis_port = 6379
@@ -51,9 +64,8 @@ redis_connection_pool = redis.ConnectionPool(
 )
 
 
-@functools.cache
 def redis_client():
-    return redis.Redis(connection_pool=redis_connection_pool)
+    return redis.StrictRedis(connection_pool=redis_connection_pool)
 
 
 def bootstrapping():
@@ -65,14 +77,13 @@ def bootstrapping():
 
 
 def transactional(func: Callable):  # XXX: transactionl 임시구현, 이 방법(decorator)은 type hint가 적용이 안됨
-
     @functools.wraps(func)
     def _wrapper(*args, **kwargs):
         try:
             result = func(*args, **kwargs)
+            db_session.flush()
             db_session.commit()
             return result
-
         except CouponIssueException as e:
             db_session.rollback()  # XXX: exception이 터질 때는 rollback 처리, 안 그러면 다른 트랜잭션에서 대기하는 경우가 발생함
             raise e
@@ -82,14 +93,24 @@ def transactional(func: Callable):  # XXX: transactionl 임시구현, 이 방법
     return _wrapper
 
 
+async def async_transactional(func: Callable):  # XXX: transactionl 임시구현, 이 방법(decorator)은 type hint가 적용이 안됨
+    @functools.wraps(func)
+    async def _wrapper(*args, **kwargs):
+        # try:
+        result = func(*args, **kwargs)
+
+        await async_session().commit()
+
+        return result
+
+    return _wrapper
+
+
 from contextlib import asynccontextmanager
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    db_session.execute("select 1;")
-    db_session.commit()
-
     import redis_lock
     registry = bootstrapping()
 
