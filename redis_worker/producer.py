@@ -1,7 +1,7 @@
 import json
 import uuid
 
-from .common import RedisWorker
+from .abstract import RedisWorker
 
 
 class RedisProducer(RedisWorker):

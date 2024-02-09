@@ -1,4 +1,4 @@
-from .common import RedisWorker
+from .abstract import RedisWorker
 
 
 class RedisConsumer(RedisWorker):
