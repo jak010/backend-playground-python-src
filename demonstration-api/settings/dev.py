@@ -23,3 +23,11 @@ db_session = scoped_session(sessionmaker(
     autocommit=False,
     autoflush=False
 ))
+
+
+def get_db():
+    db = db_session()
+    try:
+        yield db
+    finally:
+        db.close()
