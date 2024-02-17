@@ -7,7 +7,7 @@ class AbstarctDataBaseConnectionMeta:
     drivername = "mysql+mysqldb"
     username = "root"
     password = "1234"
-    host = "127.0.0.1"
+    host = "0.0.0.0"
     port = 19501
 
     database = None
