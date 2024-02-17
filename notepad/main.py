@@ -1,4 +1,4 @@
-from notepad01 import timethis2, timethis
+from decorator_typehint import timethis2, timethis
 
 
 @timethis
