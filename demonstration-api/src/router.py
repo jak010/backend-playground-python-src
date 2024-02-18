@@ -4,25 +4,24 @@ from fastapi.routing import APIRouter
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from settings.dev import get_db
 from src.repository import Repository
 
 api_router = APIRouter(tags=['API'], prefix="/api/v1")
 
 
-@api_router.post(path="/")
-def some_api(
-        session: Session = Depends(get_db)
-):
-    with session.begin():
-        session.execute("select 1")
-        session.commit()
+# @api_router.post(path="/")
+# async def some_api(
+#         session: Session = Depends(get_db)
+# ):
+#     session.execute("select 1")
+#     session.commit()
+#     session.close()
+#
+#     return JSONResponse(status_code=200, content={})
 
-    return JSONResponse(status_code=200, content={})
 
-
-@api_router.post(path="/session/example02")
-async def repository_session_example2():
+@api_router.post(path="/session/example")
+def repository_session_example2():
     repo = Repository()
     repo.get_session()
 

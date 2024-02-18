@@ -2,6 +2,7 @@ import os
 
 from sqlalchemy import engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.pool import QueuePool
 
 from settings._database import DevDataBaseConnection
 from typing import Callable
@@ -9,7 +10,7 @@ from typing import Callable
 CORE = int(os.cpu_count())
 
 
-def get_engine() -> Callable:
+def get_engine():
     return engine.create_engine(
         DevDataBaseConnection.get_url(),
         pool_pre_ping=True,
@@ -23,7 +24,7 @@ def get_engine() -> Callable:
 
 def get_session(sa_engine):
     _session = scoped_session(sessionmaker(
-        bind=sa_engine(),
+        bind=sa_engine,
         expire_on_commit=False,
         autocommit=False,
         autoflush=False
@@ -32,12 +33,43 @@ def get_session(sa_engine):
     return _session
 
 
-def get_db():
-    db = get_session(get_engine())
-    try:
-        yield db
-    finally:
-        db.close()
+db_engine = engine.create_engine(
+    DevDataBaseConnection.get_url(),
+    pool_pre_ping=True,
+    pool_recycle=3600,
+    pool_size=5,
+    max_overflow=5,
+    pool_timeout=10,
+    echo=True
+)
+
+db_session = scoped_session(sessionmaker(
+    bind=db_engine,
+    expire_on_commit=False,
+    autocommit=False,
+    autoflush=False
+))
+
+
+def get_db(session):
+    yield session
+
+    session.commit()
+    session.close()
+
+
+# def get_db():
+#     _session = scoped_session(sessionmaker(
+#         bind=db_engine,
+#         expire_on_commit=False,
+#         autocommit=False,
+#         autoflush=False
+#     ))
+#     try:
+#         yield _session
+#     finally:
+#         _session.commit()
+#         _session.close()
 
 
 def patch_ioc():
@@ -47,4 +79,5 @@ def patch_ioc():
     db.wire(
         packages=['src']
     )
+
     return db

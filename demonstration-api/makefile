@@ -4,6 +4,9 @@ app.docker:
 	docker-compose -f ./.docker/docker-compose.yml up --remove-orphans
 
 app.dev:
+	uvicorn application:demoapplication --workers 4
+
+app.dev2:
 	uvicorn application:demoapplication --reload
 
 # Test Command

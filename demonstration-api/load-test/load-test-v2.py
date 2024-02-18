@@ -13,6 +13,6 @@ class LoadtestV1(FastHttpUser):
             "user_id": random.randint(1, 10000000),
             "coupon_id": 1,
         }
-        with self.rest("POST", "/api/v1/session/example02", json=payload) as result:
+        with self.rest("POST", "/api/v1/session/example", json=payload) as result:
             if result.status_code == 0:
                 print(result.raise_for_status())
