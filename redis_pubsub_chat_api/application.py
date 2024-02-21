@@ -20,6 +20,18 @@ class PubSubApplication:
     def __call__(self, *args, **kwargs):
         # self.app.add_exception_handler(asyncio.exceptions.CancelledError, exception_handler)
 
+        from fastapi.middleware.cors import CORSMiddleware
+
+        origins = ["*"]
+
+        self.app.add_middleware(
+            CORSMiddleware,
+            allow_origins=origins,
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"],
+        )
+
         self.app.include_router(controller_router)
         self.app.include_router(websocket_router)
         return self.app

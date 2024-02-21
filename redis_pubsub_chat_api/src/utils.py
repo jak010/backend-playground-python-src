@@ -41,6 +41,8 @@ class AsyncRedisClient(RedisConnector):
 
 
 class ConnectionManager:
+    """ FastAPI의 WebSocket Conncetion(Active) 관리 """
+
     def __init__(self):
         self.active_connections: list[WebSocket] = []
 
