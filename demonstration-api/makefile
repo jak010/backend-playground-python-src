@@ -1,13 +1,17 @@
 
-
 app.docker:
 	docker-compose -f ./.docker/docker-compose.yml up --remove-orphans
+
+app.local:
+	uvicorn application:demoapplication --reload
 
 app.dev:
 	uvicorn application:demoapplication --workers 4
 
-app.dev2:
-	uvicorn application:demoapplication --reload
+# ORM
+
+orm.model:
+	sqlacodegen mysql+pymysql://root:1234@localhost:19501/demo > ./src/orm.py
 
 # Test Command
 load.test.v1:
