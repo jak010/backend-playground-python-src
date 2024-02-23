@@ -6,6 +6,7 @@ from typing_extensions import Self
 
 
 class AbstractEntity(metaclass=ABCMeta):
+    # Definition Attribute
     id: int
     nanoid: str
 

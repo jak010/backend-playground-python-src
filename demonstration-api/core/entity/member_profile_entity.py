@@ -10,6 +10,12 @@ class MemberProfileEntity(AbstractEntity):
     description: str
 
     @classmethod
+    def new(cls, descriptions):
+        return cls(
+            descriptions=descriptions
+        )
+
+    @classmethod
     def of(cls, id, nanoid, description):
         return cls(
             id=id,

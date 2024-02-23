@@ -34,7 +34,8 @@ class MemberRepositry(Repository):
 
     def get(self, nanoid: str):
         """ One Table Querying """
-        query = self.session.query(MemberEntity).filter_by(nanoid=nanoid)
+        query = self.session.query(MemberEntity) \
+            .filter(MemberEntity.nanoid == nanoid)
         query = query.one_or_none()
 
         if query:
