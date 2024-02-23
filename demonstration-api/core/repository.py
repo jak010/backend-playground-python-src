@@ -32,10 +32,10 @@ class MemberRepositry(Repository):
         self.session.commit()
         self.session.close()
 
-    def get(self, nanoid: str):
+    def get(self, member_id: str):
         """ One Table Querying """
         query = self.session.query(MemberEntity) \
-            .filter(MemberEntity.nanoid == nanoid)
+            .filter(MemberEntity.member_id == nanoid)
         query = query.one_or_none()
 
         if query:

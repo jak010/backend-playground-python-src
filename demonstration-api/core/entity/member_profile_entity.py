@@ -7,25 +7,27 @@ from core.entity.member_entity import MemberEntity
 
 
 class MemberProfileEntity(AbstractEntity):
+    member_id: str
     description: str
 
     @classmethod
-    def new(cls, descriptions):
+    def new(cls, member_id, descriptions):
         return cls(
+            member_id=member_id,
             descriptions=descriptions
         )
 
     @classmethod
-    def of(cls, id, nanoid, description):
+    def of(cls, pk, member_id, description):
         return cls(
-            id=id,
-            nanoid=nanoid,
+            pk=pk,
+            member_id=member_id,
             description=description
         )
 
     @classmethod
     def by(cls, member: MemberEntity, description):
         return cls(
-            nanoid=member.nanoid,
+            member_id=member.member_id,
             description=description
         )

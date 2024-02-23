@@ -10,8 +10,8 @@ metadata = Base.metadata
 class Member(Base):
     __tablename__ = 'member'
 
-    id = Column(INTEGER(1), primary_key=True)
-    nanoid = Column(CHAR(24), nullable=False)
+    pk = Column(INTEGER(1), primary_key=True)
+    member_id = Column(CHAR(24), nullable=False)
     name = Column(String(32))
     age = Column(INTEGER(1))
 
@@ -19,6 +19,6 @@ class Member(Base):
 class MemberProfile(Base):
     __tablename__ = 'member_profile'
 
-    id = Column(INTEGER(1), primary_key=True)
-    nanoid = Column(CHAR(24), nullable=False, comment='ref, member.nanoid')
+    pk = Column(INTEGER(1), primary_key=True)
+    member_id = Column(CHAR(24), nullable=False, comment='ref, member.memberid')
     description = Column(String(32))

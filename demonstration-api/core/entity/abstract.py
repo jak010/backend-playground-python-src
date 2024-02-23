@@ -7,13 +7,10 @@ from typing_extensions import Self
 
 class AbstractEntity(metaclass=ABCMeta):
     # Definition Attribute
-    id: int
-    nanoid: str
+    pk: int
 
-    def __init__(self, *, id=None, nanoid=None, **kwargs):
-        self.id = id
-        self.nanoid = nanoid
-
+    def __init__(self, *, pk=None, **kwargs):
+        self.pk = pk
         self.__dict__.update(kwargs)
 
     @classmethod

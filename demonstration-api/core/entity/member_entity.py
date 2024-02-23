@@ -6,13 +6,14 @@ import nanoid as _nanoid
 
 
 class MemberEntity(AbstractEntity):
+    member_id: str
     name: str
     age: int
 
     @classmethod
     def new(cls, name: str, age: int):
         return cls(
-            nanoid=_nanoid.generate(size=24),
+            member_id=_nanoid.generate(size=24),
             name=name,
             age=age
         )

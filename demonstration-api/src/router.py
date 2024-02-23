@@ -34,14 +34,12 @@ def example_create_member(
 
 
 @api_router.get(
-    path="/member/{nanoid}"
+    path="/member/{member_id}"
 )
 def example_get_member(
-        nanoid: str = Path(),
-
+        member_id: str = Path(),
         repository: MemberRepositry = Depends(MemberRepositry)
-
 ):
-    member = repository.get(nanoid=nanoid)
+    member = repository.get(member_id=member_id)
 
     return JSONResponse(status_code=200, content={})
