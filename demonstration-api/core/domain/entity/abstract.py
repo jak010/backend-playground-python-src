@@ -8,6 +8,7 @@ from typing_extensions import Self
 class AbstractEntity(metaclass=ABCMeta):
     # Definition Attribute
     pk: int
+    nanoid: str
 
     def __init__(self, *, pk=None, **kwargs):
         self.pk = pk

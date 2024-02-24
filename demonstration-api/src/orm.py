@@ -11,7 +11,7 @@ class Member(Base):
     __tablename__ = 'member'
 
     pk = Column(INTEGER(1), primary_key=True)
-    member_id = Column(CHAR(24), nullable=False)
+    nanoid = Column(CHAR(24), nullable=False)
     name = Column(String(32))
     age = Column(INTEGER(1))
 
@@ -20,5 +20,5 @@ class MemberProfile(Base):
     __tablename__ = 'member_profile'
 
     pk = Column(INTEGER(1), primary_key=True)
-    member_id = Column(CHAR(24), nullable=False, comment='ref, member.memberid')
+    nanoid = Column(CHAR(24), nullable=False, comment='ref, member.nanoid')
     description = Column(String(32))

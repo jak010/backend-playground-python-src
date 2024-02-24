@@ -3,9 +3,9 @@ from fastapi import Path
 from fastapi.responses import JSONResponse
 from fastapi.routing import APIRouter
 
-from core.entity.member_entity import MemberEntity
-from core.entity.member_profile_entity import MemberProfileEntity
-from core.repository import MemberRepositry, MemberProfileRepository
+from core.domain.entity.member_entity import MemberEntity
+from core.domain.entity.member_profile_entity import MemberProfileEntity
+from core.infra.repository import MemberRepositry, MemberProfileRepository
 
 api_router = APIRouter(tags=['API'], prefix="/api/v1")
 
@@ -40,6 +40,8 @@ def example_get_member(
         member_id: str = Path(),
         repository: MemberRepositry = Depends(MemberRepositry)
 ):
-    member = repository.get(member_id=member_id)
+    aggrage = repository.find_by_member_id(member_id=member_id)
+    print(aggrage.exist_member_profile())
+
 
     return JSONResponse(status_code=200, content={})
