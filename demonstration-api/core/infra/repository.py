@@ -37,12 +37,14 @@ class MemberRepositry(Repository):
             .filter(MemberEntity.nanoid == member_id)
         query = query.one_or_none()
 
-        if query:
-            aggregate = MemberAggregate.new(
-                root_entitiy=query,
-                member_profile=query.member_profile
-            )
-            return aggregate
+        print(type(query.member_profile))
+
+        # if query:
+        #     aggregate = MemberAggregate.new(
+        #         root_entitiy=query,
+        #         member_profile=query.member_profile
+        #     )
+        #     return aggregate
 
 
 class MemberProfileRepository(Repository):

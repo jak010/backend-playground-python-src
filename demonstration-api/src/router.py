@@ -41,7 +41,7 @@ def example_get_member(
         repository: MemberRepositry = Depends(MemberRepositry)
 ):
     aggrage = repository.find_by_member_id(member_id=member_id)
-    print(aggrage.exist_member_profile())
+    # print(aggrage.exist_member_profile())
 
 
     return JSONResponse(status_code=200, content={})

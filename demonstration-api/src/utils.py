@@ -9,9 +9,6 @@ from sqlalchemy import alias
 
 
 def start_mapper():
-    # member_table = alias(orm.Member, name='member')
-    # member_profile_table = alias(orm.MemberProfile, name='member_profile')
-
     orm_mapper = registry(orm.metadata)
     orm_mapper.map_imperatively(MemberProfileEntity, orm.MemberProfile)
 
@@ -22,8 +19,8 @@ def start_mapper():
                 MemberProfileEntity,
                 backref=backref('member'),
                 primaryjoin='foreign(member.c.nanoid) == member_profile.c.nanoid',
-                lazy='joined',
-                uselist=False
+                # lazy='joined',
+                # uselist=False
             )
         }
     )
