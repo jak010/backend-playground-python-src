@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 
-from src.router import api_router
-from src.concurrency_router import concurrency_router
+from src.api.member_router import api_router
 from src.utils import start_mapper
 from settings.dev import patch_ioc
 
@@ -17,7 +16,6 @@ class DemonstrationApplication:
         start_mapper()
 
         self.app.include_router(api_router)
-        self.app.include_router(concurrency_router)
 
         return self.app
 

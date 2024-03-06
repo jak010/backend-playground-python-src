@@ -6,7 +6,7 @@ from typing import Generic, TypeVar
 from dependency_injector.wiring import Provide
 from sqlalchemy.orm import Session
 
-from core.domain.entity import MemberAggregate, MemberEntity, MemberProfileEntity
+from src.domain.entity import MemberAggregate, MemberEntity, MemberProfileEntity
 from settings.dependency import DataBaseContainer
 
 Entity = TypeVar("Entity")
@@ -31,13 +31,14 @@ class MemberRepositry(Repository):
         self.session.commit()
         self.session.close()
 
-    def find_by_member_id(self, member_id: str) -> MemberAggregate:
+    def find_by_member_id(self, member_id: str) -> MemberEntity:
         """ One Table Querying """
         query = self.session.query(MemberEntity) \
             .filter(MemberEntity.nanoid == member_id)
         query = query.one_or_none()
 
-        print(type(query.member_profile))
+        self.session.commit()
+        return query
 
         # if query:
         #     aggregate = MemberAggregate.new(

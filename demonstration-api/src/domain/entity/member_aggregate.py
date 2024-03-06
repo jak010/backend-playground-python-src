@@ -1,7 +1,7 @@
 from typing import Generic, TypeVar, ParamSpec, Optional
 from abc import abstractmethod
-from core.domain.entity import MemberEntity, MemberProfileEntity
-from core.domain.entity.abstract import AbstractEntity
+from src.domain.entity import MemberEntity, MemberProfileEntity
+from src.domain.entity.abstract import AbstractEntity
 
 ROOT_ENTITY = TypeVar("ROOT_ENTITY", bound=AbstractEntity)
 

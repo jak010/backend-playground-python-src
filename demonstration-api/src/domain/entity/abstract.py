@@ -1,8 +1,14 @@
 from __future__ import annotations
 
 from abc import ABCMeta, abstractmethod
+from src.domain.value_object.address import AbstractValueObject
 
 from typing_extensions import Self
+import nanoid as _nanoid
+
+
+def generate_entity_id():
+    return _nanoid.generate(size=24)
 
 
 class AbstractEntity(metaclass=ABCMeta):
@@ -10,9 +16,8 @@ class AbstractEntity(metaclass=ABCMeta):
     pk: int
     nanoid: str
 
-    def __init__(self, *, pk=None, **kwargs):
-        self.pk = pk
-        self.__dict__.update(kwargs)
+    def __init__(self, **kwargs):
+        self.__dict__.update(**kwargs)
 
     @classmethod
     @abstractmethod
@@ -30,9 +35,12 @@ class AbstractEntity(metaclass=ABCMeta):
 
     def __str__(self):
         data = {}
+
         for key, value in self.__dict__.items():
             if '_' not in key:
                 data[key] = str(value)
+            if isinstance(value, AbstractValueObject):
+                data[key] = value
 
         _formatter = f"{self.__class__.__name__}(" \
                      f"{data})"

@@ -14,6 +14,8 @@ class Member(Base):
     nanoid = Column(CHAR(24), nullable=False)
     name = Column(String(32))
     age = Column(INTEGER(1))
+    address1 = Column(String(1024))
+    address2 = Column(String(1024))
 
 
 class MemberProfile(Base):
