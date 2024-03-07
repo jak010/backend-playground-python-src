@@ -15,19 +15,18 @@ def start_mapper():
     # orm_mapper.map_imperatively(MemberProfileEntity, orm.MemberProfile)
 
     orm_mapper.map_imperatively(
-        MemberEntity, orm.Member,
-        properties={
-            "address": composite(
-                Address,
-                orm.Member.address1,
-                orm.Member.address2,
-            )
-        },
-        # Fix
+        MemberEntity, orm.t_member,
         exclude_properties={
-            orm.Member.address1,
-            orm.Member.address2,
+            orm.t_member.c.address1,
+            orm.t_member.c.address2,
         },
+        # properties={
+        #     "address": composite(
+        #         Address,
+        #         orm.t_member.c.address1,
+        #         orm.t_member.c.address2,
+        #     )
+        # },
 
     )
 

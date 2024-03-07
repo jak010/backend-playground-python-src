@@ -81,10 +81,6 @@ def example_get_member(
     member_entity = MemberEntity.new(
         name="test",
         age=123,
-        address=Address(
-            address1='address1-1',
-            address2='address2-1'
-        )
     )
 
     member_repository.save(member_entity=member_entity)
@@ -109,7 +105,7 @@ def example_get_member(
     print(dir(member_entity))
     print("-" * 20)
     print(member_entity)
-    print(member_entity.address)
+    # print(member_entity.address)
     print("=" * 20)
 
     return JSONResponse(status_code=200, content={})

@@ -1,26 +1,24 @@
 # coding: utf-8
-from sqlalchemy import CHAR, Column, String
+from sqlalchemy import CHAR, Column, MetaData, String, Table
 from sqlalchemy.dialects.mysql import INTEGER
-from sqlalchemy.ext.declarative import declarative_base
 
-Base = declarative_base()
-metadata = Base.metadata
+metadata = MetaData()
 
 
-class Member(Base):
-    __tablename__ = 'member'
+t_member = Table(
+    'member', metadata,
+    Column('pk', INTEGER(1), primary_key=True),
+    Column('nanoid', CHAR(24), nullable=False),
+    Column('name', String(32)),
+    Column('age', INTEGER(1)),
+    Column('address1', String(1024)),
+    Column('address2', String(1024))
+)
 
-    pk = Column(INTEGER(1), primary_key=True)
-    nanoid = Column(CHAR(24), nullable=False)
-    name = Column(String(32))
-    age = Column(INTEGER(1))
-    address1 = Column(String(1024))
-    address2 = Column(String(1024))
 
-
-class MemberProfile(Base):
-    __tablename__ = 'member_profile'
-
-    pk = Column(INTEGER(1), primary_key=True)
-    nanoid = Column(CHAR(24), nullable=False, comment='ref, member.nanoid')
-    description = Column(String(32))
+t_member_profile = Table(
+    'member_profile', metadata,
+    Column('pk', INTEGER(1), primary_key=True),
+    Column('nanoid', CHAR(24), nullable=False, comment='ref, member.nanoid'),
+    Column('description', String(32))
+)
