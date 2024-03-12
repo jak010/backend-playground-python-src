@@ -1,0 +1,1 @@
+BackEnd Practice에 필요한 DB Schema 들을 모아둡니다.
