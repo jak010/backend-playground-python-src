@@ -1,8 +1,13 @@
 # Backend-playground-src
 
 - Author : `jako`
-- Blog : `https://jakpentest.tistory.com/`
-- Profile : Python BackEnd Enginner
+    - Blog : `https://jakpentest.tistory.com/`
+    - Profile : Python BackEnd Enginner
+
+## Specification
+
+- `Language` : Python 3.10
+- `IDE` : Pycharm 2023.1.2
 
 ## Description
 
@@ -12,7 +17,8 @@
     - This repository gathers code and ideas for handling BackEnd using Python
 
 ## Need to PR
+
 - `KR`
-  - 이 repo의 코드를 보고 기여하고 싶은 아이디어 혹은 개선해야되는 코드가 있다면 'PR'을 해주세요
+    - 이 repo의 코드를 보고 기여하고 싶은 아이디어 혹은 개선해야되는 코드가 있다면 'PR'을 해주세요
 - `ENG`
-  - If you have ideas or code improvements that you'd like to contribute after reviewing this repository's code, please submit a 'PR'.
+    - If you have ideas or code improvements that you'd like to contribute after reviewing this repository's code, please submit a 'PR'.
