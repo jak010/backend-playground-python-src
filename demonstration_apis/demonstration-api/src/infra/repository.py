@@ -26,8 +26,18 @@ class Repository(IRepository):
 
 class MemberRepositry(Repository):
 
-    def save(self, member_entity: MemberEntity):
-        self.session.add(member_entity)
+    # def save(self, member_entity: MemberEntity):
+    #     self.session.add(member_entity)
+    #     self.session.commit()
+    #     self.session.close()
+
+    def insert(self, aggrate: MemberAggregate):
+        """ Aggregate Update """
+        self.session.add(aggrate.root_entity)
+
+        for profile_element in aggrate.profile:
+            self.session.add(profile_element)
+
         self.session.commit()
         self.session.close()
 
@@ -40,12 +50,18 @@ class MemberRepositry(Repository):
         self.session.commit()
         return query
 
-        # if query:
-        #     aggregate = MemberAggregate.new(
-        #         root_entitiy=query,
-        #         member_profile=query.member_profile
-        #     )
-        #     return aggregate
+    def find_by_member_with_profile(self, member_id: str) -> MemberAggregate:
+        query = self.session.query(MemberAggregate) \
+            .filter(MemberAggregate.root_entity_id == member_id) \
+            .one_or_none()
+
+        if query:
+            aggregate = MemberAggregate.new(
+                root_entity=query,
+                profile=query.profile
+            )
+            self.session.commit()
+            return aggregate
 
 
 class MemberProfileRepository(Repository):

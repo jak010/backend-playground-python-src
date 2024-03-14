@@ -6,6 +6,8 @@ from src.domain.value_object.address import Address
 
 
 class MemberEntity(AbstractEntity):
+    root_entity: MemberEntity
+
     nanoid: str
     name: str
     age: int

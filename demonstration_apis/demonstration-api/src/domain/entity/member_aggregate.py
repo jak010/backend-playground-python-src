@@ -1,38 +1,37 @@
-from typing import Generic, TypeVar, ParamSpec, Optional
+from __future__ import annotations
+
+import dataclasses
 from abc import abstractmethod
+from typing import Generic, TypeVar, List
+
 from src.domain.entity import MemberEntity, MemberProfileEntity
 from src.domain.entity.abstract import AbstractEntity
 
 ROOT_ENTITY = TypeVar("ROOT_ENTITY", bound=AbstractEntity)
 
-import dataclasses
 
-
-@dataclasses.dataclass
 class AbstarctAggregate(Generic[ROOT_ENTITY]):
+    root_entity_id: ROOT_ENTITY.nanoid
 
     @classmethod
     @abstractmethod
-    def new(cls, entity: ROOT_ENTITY, **kwargs): ...
+    def new(cls, root_entity: ROOT_ENTITY, **kwargs): ...
+
+    def __init__(self, **kwargs):
+        self.__dict__.update(kwargs)
 
 
-@dataclasses.dataclass
 class MemberAggregate(AbstarctAggregate[MemberEntity]):
-    member: ROOT_ENTITY
-    member_profile: MemberProfileEntity
+    root_entity: MemberEntity
+    profile: List[MemberProfileEntity]
 
     @classmethod
     def new(
             cls,
-            root_entitiy: ROOT_ENTITY,
-            member_profile: MemberProfileEntity = None
+            root_entity: ROOT_ENTITY,
+            profile: MemberProfileEntity = None
     ):
         return cls(
-            member=root_entitiy,
-            member_profile=member_profile
+            root_entity=root_entity,
+            profile=profile
         )
-
-    def exist_member_profile(self):
-        if self.member_profile is not None:
-            return self.member_profile
-        raise Exception("Member Profile Not Exist")
