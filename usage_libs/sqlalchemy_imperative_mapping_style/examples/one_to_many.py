@@ -27,7 +27,7 @@ def start_mapper():
                 primaryjoin=(
                         base_model.Member.nanoid == foreign(base_model.MemberProfile.nanoid)
                 ),
-                lazy='dynamic',
+                lazy='joined',
                 uselist=True
             )
         }
@@ -66,9 +66,25 @@ if __name__ == '__main__':
     repository = Repository()
     member = repository.find_by_member_id(member_id='iy7nu9a0BEDBRe7LA1arjqjk')
 
+    print("=" * 100)
+    print(member)
+    print(member.profile)
+    print("=" * 100)
+
+    # Update
     member.name = 'member_name_update1'
     member.age = 999
     member.profile[0].description = 'this is update test'
     member.profile[1].description = 'this is update test'
+
+    # Insert ?
+    # member = MemberEntity(
+    #     nanoid=_nanoid.generate(size=24),
+    #     name="this new member"
+    # )
+    # member.profile.append(MemberProfileEntity(
+    #     nanoid=member.nanoid,
+    #     description='this new description'
+    # ))
 
     repository.update(member)
