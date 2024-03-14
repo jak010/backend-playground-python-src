@@ -55,6 +55,12 @@ class Repository:
 
 
 if __name__ == '__main__':
+    """ ONE TO MANY
+    
+    MEMBER (1..*) <---> (1) MEMBER_PROFILE
+
+    """
+
     start_mapper()
 
     repository = Repository()
