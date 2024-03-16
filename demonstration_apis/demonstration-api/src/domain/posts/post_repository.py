@@ -6,7 +6,7 @@ from typing import Generic, TypeVar
 from dependency_injector.wiring import Provide
 from sqlalchemy.orm import Session
 
-from src.domain.posts.post_entity import PostEntity
+from src.domain.posts.post_entity import PostEntity, LikeIncreateLimitException
 from settings.dependency import DataBaseContainer
 
 Entity = TypeVar("Entity")
@@ -24,5 +24,15 @@ class PostRepository(IRepository[PostEntity]):
         self.session.commit()
 
     def find_by_pk(self, pk: int) -> PostEntity:
-        query = self.session.query(PostEntity).filter(PostEntity.pk == pk)
-        return query.one_or_none()
+        return self.session.query(PostEntity).filter(PostEntity.pk == pk).one()
+
+    def increase_like(self, pk: int) -> PostEntity:
+        query = self.session.query(PostEntity).filter(PostEntity.pk == pk).one()
+        query.like += 1
+
+        if query.like > 500:
+            self.session.rollback()
+            raise LikeIncreateLimitException()
+
+        self.session.add(query)
+        self.session.commit()

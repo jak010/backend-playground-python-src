@@ -7,5 +7,3 @@ class DataBaseContainer(containers.DeclarativeContainer):
     _engine = providers.Singleton(get_engine)
 
     session = providers.Singleton(get_session, sa_engine=_engine.provided)
-
-    # session = providers.Resource(get_db, session=_session.provided)

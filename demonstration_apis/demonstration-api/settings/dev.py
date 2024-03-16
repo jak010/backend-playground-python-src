@@ -1,7 +1,7 @@
 import os
 
 from sqlalchemy import engine
-from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.orm import scoped_session, sessionmaker, Session
 from sqlalchemy.pool import QueuePool
 
 from settings._database import DevDataBaseConnection
@@ -31,24 +31,6 @@ def get_session(sa_engine):
     ))
 
     return _session
-
-
-db_engine = engine.create_engine(
-    DevDataBaseConnection.get_url(),
-    pool_pre_ping=True,
-    pool_recycle=3600,
-    pool_size=5,
-    max_overflow=5,
-    pool_timeout=10,
-    echo=True
-)
-
-db_session = scoped_session(sessionmaker(
-    bind=db_engine,
-    expire_on_commit=False,
-    autocommit=False,
-    autoflush=False
-))
 
 
 def get_db(session):

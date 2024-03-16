@@ -21,17 +21,17 @@ def create_post(
 
 
 @redis_lock_test_router.get(path="")
-def increase_like_post(
+async def increase_like_post(
         repository: PostRepository = Depends(PostRepository)
 ):
     """ post의 like 수 증가시키기 """
-    post = repository.find_by_pk(pk=1)
+
     try:
+        post = repository.find_by_pk(pk=1)
         post.increase_like()
+        repository.save(post)
     except LikeIncreateLimitException:
         return JSONResponse(status_code=200, content={"message": "LIMIT LIKE"})
-
-    repository.save(post_entity=post)
 
     return JSONResponse(status_code=200, content={})
 

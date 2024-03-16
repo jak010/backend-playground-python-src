@@ -4,8 +4,6 @@ from locust import task, FastHttpUser
 
 
 class LoadtestPostV1(FastHttpUser):
-    connection_timeout = 10
-    network_timeout = 10
 
     @task
     def issue(self):
