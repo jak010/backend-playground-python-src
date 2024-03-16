@@ -6,7 +6,7 @@ from typing import Generic, TypeVar
 from dependency_injector.wiring import Provide
 from sqlalchemy.orm import Session
 
-from src.domain.entity import MemberAggregate, MemberEntity, MemberProfileEntity
+from src.domain.member.entity import MemberAggregate, MemberEntity, MemberProfileEntity
 from settings.dependency import DataBaseContainer
 
 Entity = TypeVar("Entity")

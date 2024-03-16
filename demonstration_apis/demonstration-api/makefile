@@ -1,6 +1,10 @@
 
-app.docker:
+app.docker.up:
 	docker-compose -f ./.docker/docker-compose.yml up --remove-orphans
+
+
+app.docker.down:
+	docker-compose -f ./.docker/docker-compose.yml down
 
 app.local:
 	uvicorn application:demoapplication --reload
@@ -18,8 +22,5 @@ orm.model.tables:
 
 
 # Test Command
-load.test.v1:
-	locust -f ./load-test/load-test-v1.py --host=http://127.0.0.1:8000 --processes 3
-
-load.test.v2:
-	locust -f ./load-test/load-test-v2.py --host=http://127.0.0.1:8000 --processes 3
+load.test.post:
+	locust -f ./load-test/load-test-increase-like-post.py --host=http://127.0.0.1:8000 --processes 3

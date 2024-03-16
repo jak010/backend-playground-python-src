@@ -3,8 +3,8 @@ from fastapi import Path
 from fastapi.responses import JSONResponse
 from fastapi.routing import APIRouter
 
-from src.domain.entity.member_entity import MemberEntity
-from src.domain.entity.member_profile_entity import MemberProfileEntity
+from src.domain.member.entity import MemberEntity, MemberProfileEntity
+
 from src.infra.repository import MemberRepositry, MemberProfileRepository
 
 api_router = APIRouter(tags=['RELATION'], prefix="/api/v1")
@@ -43,5 +43,3 @@ def member_read(
     aggrage = repository.find_by_member_id(member_id=member_id)
 
     return JSONResponse(status_code=200, content={})
-
-

@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+import dataclasses
+import json
 from abc import ABCMeta, abstractmethod
-from src.domain.value_object.address import AbstractValueObject
 
-from typing_extensions import Self
 import nanoid as _nanoid
+from typing_extensions import Self
 
 
 def generate_entity_id():
@@ -46,3 +47,15 @@ class AbstractEntity(metaclass=ABCMeta):
                      f"{data})"
 
         return _formatter
+
+
+@dataclasses.dataclass(frozen=True)
+class AbstractValueObject(metaclass=ABCMeta):
+
+    def __str__(self):
+        return f"{self.__class__.__name__}({json.dumps(dataclasses.asdict(self))})"
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def __composite_values__(self): ...

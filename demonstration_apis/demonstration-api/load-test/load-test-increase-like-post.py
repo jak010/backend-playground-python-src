@@ -3,16 +3,12 @@ import random
 from locust import task, FastHttpUser
 
 
-class LoadtestV1(FastHttpUser):
+class LoadtestPostV1(FastHttpUser):
     connection_timeout = 10
     network_timeout = 10
 
     @task
     def issue(self):
-        payload = {
-            "user_id": random.randint(1, 10000000),
-            "coupon_id": 1,
-        }
-        with self.rest("POST", "/api/v1/session/example", json=payload) as result:
+        with self.rest("GET", "/api/v1/post") as result:
             if result.status_code == 0:
                 print(result.raise_for_status())

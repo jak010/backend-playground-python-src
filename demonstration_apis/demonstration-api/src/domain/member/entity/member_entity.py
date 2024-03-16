@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from src.domain.entity.abstract import AbstractEntity, generate_entity_id
+from src.domain.abstract import AbstractEntity, generate_entity_id
 
-from src.domain.value_object.address import Address
+from src.domain.member.value_object.address import Address
 
 
 class MemberEntity(AbstractEntity):

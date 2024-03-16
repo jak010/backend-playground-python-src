@@ -1,5 +1,5 @@
 # coding: utf-8
-from sqlalchemy import CHAR, Column, String
+from sqlalchemy import CHAR, Column, String, text
 from sqlalchemy.dialects.mysql import INTEGER
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -24,3 +24,10 @@ class MemberProfile(Base):
     pk = Column(INTEGER(1), primary_key=True)
     nanoid = Column(CHAR(24), nullable=False, comment='ref, member.nanoid')
     description = Column(String(32))
+
+
+class Post(Base):
+    __tablename__ = 'posts'
+
+    pk = Column(INTEGER(10), primary_key=True)
+    like = Column(INTEGER(10), server_default=text("'0'"))

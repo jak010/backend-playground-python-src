@@ -1,10 +1,10 @@
-from fastapi import Depends, Body
+from fastapi import Depends
 from fastapi import Path
 from fastapi.responses import JSONResponse
 from fastapi.routing import APIRouter
 
-from src.domain.entity.member_entity import MemberEntity
-from src.domain.entity.member_profile_entity import MemberProfileEntity
+from src.domain.member.entity import MemberEntity, MemberProfileEntity
+from src.domain.member.value_object.address import Address
 from src.infra.repository import MemberRepositry, MemberProfileRepository
 
 api_router_value_object = APIRouter(tags=['RELATION'], prefix="/api/v1")
@@ -20,8 +20,6 @@ def example_get_member(
         member_profile_repository: MemberProfileRepository = Depends(MemberProfileRepository)
 
 ):
-    from src.domain.value_object.address import Address
-
     member_entity = MemberEntity.new(name=12, age=10, address=Address(address1="test-address1", address2="test-address2"))
 
     member_profile_entity = MemberProfileEntity.by(member=member_entity, description="test")
@@ -41,7 +39,6 @@ def example_get_member(
         member_profile_repository: MemberProfileRepository = Depends(MemberProfileRepository)
 
 ):
-    from src.domain.value_object.address import Address
 
     member_entity = MemberEntity.new(
         name="test",
@@ -63,7 +60,6 @@ def example_get_member(
         member_profile_repository: MemberProfileRepository = Depends(MemberProfileRepository)
 
 ):
-    from src.domain.value_object.address import Address
 
     member_entity = member_repository.find_by_member_id(member_id=member_id)
     print("=" * 20)

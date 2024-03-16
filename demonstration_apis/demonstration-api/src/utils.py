@@ -1,15 +1,14 @@
 from sqlalchemy.orm import registry, relationship
 
-from src.domain.entity import MemberEntity, MemberProfileEntity, MemberAggregate
+from src.domain.member.entity import MemberEntity, MemberProfileEntity, MemberAggregate
+from src.domain.posts.post_entity import PostEntity
 from sqlalchemy.orm import joinedload, join, outerjoin, composite
 from src import orm
 from sqlalchemy.orm import deferred, lazyload, joinedload, backref, join, aliased, composite, mapper, Mapper, selectinload
 from sqlalchemy.orm.collections import attribute_mapped_collection
 from sqlalchemy import alias
-from src.domain.value_object.address import Address
+from src.domain.member.value_object.address import Address
 from sqlalchemy.orm import Bundle
-
-from src.domain.entity.member_aggregate import MemberAggregate
 
 
 def start_mapper():
@@ -17,13 +16,7 @@ def start_mapper():
     orm_mapper.map_imperatively(MemberProfileEntity, orm.MemberProfile)
 
     orm_mapper.map_imperatively(MemberEntity, orm.Member)
-
-    print('*' * 10)
-    print(dir(orm.Member.__table__.c.keys()))
-    print(orm.Member.__table__.c.keys())
-    # print(orm.Member.__table__.c._all_columns)
-
-    print('*' * 10)
+    orm_mapper.map_imperatively(PostEntity, orm.Post)
 
     orm_mapper.map_imperatively(
         MemberAggregate, orm.Member,
@@ -41,6 +34,7 @@ def start_mapper():
             )
         }
     )
+
 
     return orm_mapper
 

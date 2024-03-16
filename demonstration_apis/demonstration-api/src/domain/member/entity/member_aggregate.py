@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-import dataclasses
 from abc import abstractmethod
 from typing import Generic, TypeVar, List
 
-from src.domain.entity import MemberEntity, MemberProfileEntity
-from src.domain.entity.abstract import AbstractEntity
+from src.domain.abstract import AbstractEntity
+from src.domain.member.entity import MemberEntity, MemberProfileEntity
 
 ROOT_ENTITY = TypeVar("ROOT_ENTITY", bound=AbstractEntity)
 
