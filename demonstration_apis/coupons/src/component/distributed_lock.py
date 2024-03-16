@@ -3,8 +3,6 @@ from functools import cached_property
 import redis
 from redis_lock import Lock
 
-from functools import lru_cache, cache
-
 
 class DistributeLockExecutor:
     _lock = None

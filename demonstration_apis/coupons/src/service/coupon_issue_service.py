@@ -1,9 +1,8 @@
+from config.settings import transactional
 from src.entity.coupon_entity import CouponEntity
-from src.exceptions import ErroCode, CouponIssueException, CouponDoesNotExist
 from src.entity.coupon_issue_entity import CouponIssueEntity
+from src.exceptions import ErroCode, CouponIssueException
 from src.repository import CouponRepository, CouponIssueRepository
-
-from config.settings import db_session, transactional
 
 
 class CouPonIssueService:
@@ -31,8 +30,6 @@ class CouPonIssueService:
         self._check_already_issuance(coupon_id=coupon_id, user_id=user_id)
         coupon_issue = CouponIssueEntity(coupon_id=coupon_id, user_id=user_id)
         return self.coupon_issue_repository.save(coupon_issue)
-
-
 
     def _check_already_issuance(self, coupon_id: int, user_id: int):
         issue = self.coupon_issue_repository.find_first_coupon_issue(coupon_id=coupon_id, user_id=user_id)

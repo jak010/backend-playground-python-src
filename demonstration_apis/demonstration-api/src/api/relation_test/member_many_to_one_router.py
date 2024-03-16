@@ -5,7 +5,7 @@ from fastapi.routing import APIRouter
 
 from src.infra.repository import MemberRepositry, MemberProfileRepository
 
-api_router_many_to_one = APIRouter(tags=['MANY_TO_ONE'], prefix="/api/v1/member")
+api_router_many_to_one = APIRouter(tags=['RELATION'], prefix="/api/v1/member")
 
 
 @api_router_many_to_one.get("/{member_id}/with-profile")

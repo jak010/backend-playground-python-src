@@ -7,7 +7,7 @@ from src.domain.entity.member_entity import MemberEntity
 from src.domain.entity.member_profile_entity import MemberProfileEntity
 from src.infra.repository import MemberRepositry, MemberProfileRepository
 
-api_router = APIRouter(tags=['API'], prefix="/api/v1")
+api_router = APIRouter(tags=['RELATION'], prefix="/api/v1")
 
 
 @api_router.post(

@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 
-from src.api.member_router import api_router
-from src.api.member_many_to_one_router import api_router_many_to_one
-from src.api.member_value_object_router import api_router_value_object
+from src.api.relation_test import *
+from src.api.redis_test import *
 from src.utils import start_mapper
 from settings.dev import patch_ioc
 
@@ -17,9 +16,13 @@ class DemonstrationApplication:
         patch_ioc()
         start_mapper()
 
+        # Relation Test
         self.app.include_router(api_router)
         self.app.include_router(api_router_value_object)
         self.app.include_router(api_router_many_to_one)
+
+        # Redis Lock Test
+        self.app.include_router(redis_lock_test_router)
 
         return self.app
 
