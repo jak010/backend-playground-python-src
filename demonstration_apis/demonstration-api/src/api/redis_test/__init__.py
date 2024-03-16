@@ -1,1 +1,0 @@
-from .redis_lock_test import redis_lock_test_router

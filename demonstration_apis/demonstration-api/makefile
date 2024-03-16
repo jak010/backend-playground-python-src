@@ -13,7 +13,7 @@ app.dev:
 	uvicorn application:demoapplication --workers 4
 
 app.guicorn:
-	gunicorn application:demoapplication --worker-class uvicorn.workers.UvicornWorker -w 4 -t 8 --keep-alive 60 --preload --bind 0.0.0.0:8000
+	gunicorn application:demoapplication --worker-class uvicorn.workers.UvicornWorker -w 4  --preload --bind 0.0.0.0:8000 --reload
 
 # ORM
 
@@ -26,4 +26,4 @@ orm.model.tables:
 
 # Test Command
 load.test.post:
-	locust -f ./load-test/load-test-increase-like-post.py --host=http://127.0.0.1:8000 --processes 5
+	locust -f ./load-test/load-test-increase-like-post.py --host=http://127.0.0.1:8000 --processes 8

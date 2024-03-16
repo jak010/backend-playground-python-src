@@ -3,7 +3,8 @@ from __future__ import annotations
 from abc import ABCMeta
 from typing import Generic, TypeVar
 
-from dependency_injector.wiring import Provide
+from dependency_injector.wiring import Provide, Closing
+from dependency_injector.wiring import inject
 from sqlalchemy.orm import Session
 
 from src.domain.member.entity import MemberAggregate, MemberEntity, MemberProfileEntity
@@ -14,6 +15,11 @@ Entity = TypeVar("Entity")
 
 class IRepository(Generic[Entity], metaclass=ABCMeta):
     session: Session = Provide[DataBaseContainer.session]
+
+    @property
+    @inject
+    def r_session(self, _session: Session = Closing[Provide[DataBaseContainer.session]]):
+        return _session
 
 
 class Repository(IRepository):

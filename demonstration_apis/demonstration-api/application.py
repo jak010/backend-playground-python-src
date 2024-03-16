@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from src.api.relation_test import *
-from src.api.redis_test import *
+from src.api.concurrency_lock_test import *
 from src.utils import start_mapper
 from settings.dev import patch_ioc
 
@@ -22,7 +22,7 @@ class DemonstrationApplication:
         self.app.include_router(api_router_many_to_one)
 
         # Redis Lock Test
-        self.app.include_router(redis_lock_test_router)
+        self.app.include_router(concurrency_lock_test_router)
 
         return self.app
 

@@ -1,9 +1,10 @@
 import random
 
-from locust import task, FastHttpUser
+from locust import task, FastHttpUser, between
 
 
 class LoadtestPostV1(FastHttpUser):
+    wait_time = between(5, 15)
 
     @task
     def issue(self):

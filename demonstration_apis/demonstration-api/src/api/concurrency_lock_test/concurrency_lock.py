@@ -1,26 +1,30 @@
+import time
+
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from src.domain.posts.post_repository import PostRepository
 from src.domain.posts.post_entity import PostEntity, LikeIncreateLimitException
 
-redis_lock_test_router = APIRouter(tags=['REDIS_LOCK'], prefix='/api/v1/post')
+concurrency_lock_test_router = APIRouter(tags=['CONCURRENCY-OPTIMISTIC/PESSIMISTIC'], prefix='/api/v1/post')
 
 
-@redis_lock_test_router.post(path="")
+@concurrency_lock_test_router.post(path="")
 def create_post(
         repository: PostRepository = Depends(PostRepository)
 ):
     """ post 생성하기"""
     repository.save(
         post_entity=PostEntity.new(
-            like=0
+            like=0,
+            modified_at=int(time.time()),
+            version=0
         )
     )
 
     return JSONResponse(status_code=200, content={})
 
 
-@redis_lock_test_router.get(path="")
+@concurrency_lock_test_router.get(path="")
 async def increase_like_post(
         repository: PostRepository = Depends(PostRepository)
 ):
@@ -28,18 +32,27 @@ async def increase_like_post(
 
     try:
         post = repository.find_by_pk(pk=1)
-        post.increase_like()
-        repository.save(post)
+        # post.increase_like()
+        # repository.save(post)
 
-        # repository.increase_like(pk=1)
+        # post = repository.find_by_pk(pk=1)
+        # post.increase_like()
+
+        # repository.increase_like(post_entity=post)
+        is_sucess = repository.increase_like_by_optimistic_lock(post_entity=post)
+        while not bool(is_sucess):
+            is_sucess = repository.increase_like_by_optimistic_lock(post_entity=post)
 
     except LikeIncreateLimitException:
-        return JSONResponse(status_code=200, content={"message": "LIMIT LIKE"})
+        repository.session.rollback()
+        return JSONResponse(status_code=400, content={"message": "LIMIT LIKE"})
+
+    repository.session.commit()
 
     return JSONResponse(status_code=200, content={})
 
 
-@redis_lock_test_router.post(path="/reset")
+@concurrency_lock_test_router.post(path="/reset")
 def reset_post(
         repository: PostRepository = Depends(PostRepository)
 ):

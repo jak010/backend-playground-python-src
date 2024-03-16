@@ -26,8 +26,18 @@ class MemberProfile(Base):
     description = Column(String(32))
 
 
+class PostComment(Base):
+    __tablename__ = 'post_comments'
+
+    pk = Column(INTEGER(10), primary_key=True)
+    post_id = Column(INTEGER(1), nullable=False)
+    created_at = Column(INTEGER(1), server_default=text("'0'"))
+
+
 class Post(Base):
     __tablename__ = 'posts'
 
     pk = Column(INTEGER(10), primary_key=True)
     like = Column(INTEGER(10), server_default=text("'0'"))
+    version = Column(INTEGER(1), server_default=text("'0'"))
+    modified_at = Column(INTEGER(1), server_default=text("'0'"))
