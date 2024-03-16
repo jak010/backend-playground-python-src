@@ -30,6 +30,9 @@ async def increase_like_post(
         post = repository.find_by_pk(pk=1)
         post.increase_like()
         repository.save(post)
+
+        # repository.increase_like(pk=1)
+
     except LikeIncreateLimitException:
         return JSONResponse(status_code=200, content={"message": "LIMIT LIKE"})
 

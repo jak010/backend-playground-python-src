@@ -13,7 +13,7 @@ app.dev:
 	uvicorn application:demoapplication --workers 4
 
 app.guicorn:
-	gunicorn application:demoapplication --worker-class uvicorn.workers.UvicornWorker -w 8 --keep-alive 60 --preload --bind 0.0.0.0:8000
+	gunicorn application:demoapplication --worker-class uvicorn.workers.UvicornWorker -w 4 -t 8 --keep-alive 60 --preload --bind 0.0.0.0:8000
 
 # ORM
 
