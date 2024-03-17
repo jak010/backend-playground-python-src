@@ -39,5 +39,5 @@ class Post(Base):
 
     pk = Column(INTEGER(10), primary_key=True)
     like = Column(INTEGER(10), server_default=text("'0'"))
-    version = Column(INTEGER(1), server_default=text("'0'"))
+    version = Column(INTEGER(1), nullable=False, server_default=text("'0'"))
     modified_at = Column(INTEGER(1), server_default=text("'0'"))

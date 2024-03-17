@@ -72,3 +72,18 @@ class PostRepository(IRepository[PostEntity]):
         self.session.commit()
         self.session.close()
         return result
+
+    def increase_like_by_optimistic_lock_in_mapper_args(self, post_entity: PostEntity):
+        """
+            Path: backend-playground-src/demonstration_apis/demonstration-api/src/utils.py
+            Ref: https://docs.sqlalchemy.org/en/20/orm/versioning.html#simple-version-counting
+        """
+        if post_entity.like >= 1000:
+            raise LikeIncreateLimitException()
+
+        post_entity.increase_like()
+        self.session.add(post_entity)
+
+        self.session.commit()
+        self.session.close()
+        # return result

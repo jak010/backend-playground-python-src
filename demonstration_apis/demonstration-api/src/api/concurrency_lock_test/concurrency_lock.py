@@ -17,7 +17,7 @@ def create_post(
         post_entity=PostEntity.new(
             like=0,
             modified_at=int(time.time()),
-            version=0
+            version=1
         )
     )
 
@@ -42,6 +42,25 @@ async def increase_like_post(
         is_sucess = repository.increase_like_by_optimistic_lock(post_entity=post)
         while not bool(is_sucess):
             is_sucess = repository.increase_like_by_optimistic_lock(post_entity=post)
+
+    except LikeIncreateLimitException:
+        repository.session.rollback()
+        return JSONResponse(status_code=400, content={"message": "LIMIT LIKE"})
+
+    repository.session.commit()
+
+    return JSONResponse(status_code=200, content={})
+
+
+@concurrency_lock_test_router.get(path="/v2")
+async def increase_like_post_v2(
+        repository: PostRepository = Depends(PostRepository)
+):
+    """ post의 like 수 증가시키기 (v2) """
+
+    try:
+        post = repository.find_by_pk(pk=1)
+        is_sucess = repository.increase_like_by_optimistic_lock_in_mapper_args(post_entity=post)
 
     except LikeIncreateLimitException:
         repository.session.rollback()
