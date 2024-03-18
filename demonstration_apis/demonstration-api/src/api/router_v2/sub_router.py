@@ -1,5 +1,6 @@
-from .index_router import index_router_v1
 from fastapi.responses import JSONResponse
+
+from .index_router import index_router_v1
 
 
 @index_router_v1.get(path="/sub")

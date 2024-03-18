@@ -1,6 +1,6 @@
-from fastapi import APIRouter
-from fastapi.concurrency import run_in_threadpool
 from time import sleep
+
+from fastapi import APIRouter
 
 concurrency_router = APIRouter(tags=["Conncurrency"], prefix="/api/v1/concurrency")
 
@@ -24,6 +24,5 @@ async def read_burgers():
     # buregers = await get_burgers(2)
 
     await asyncio.create_task(get_numbers(2))
-
 
     return 2
