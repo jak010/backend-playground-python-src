@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request, HTTPException
 import asyncio
 from src.controller import controller_router, websocket_router
+from src.controller2 import websocket_router2
 
 
 def exception_handler(request: Request, exc: HTTPException):
@@ -33,7 +34,8 @@ class PubSubApplication:
         )
 
         self.app.include_router(controller_router)
-        self.app.include_router(websocket_router)
+        # self.app.include_router(websocket_router)
+        self.app.include_router(websocket_router2)
         return self.app
 
 

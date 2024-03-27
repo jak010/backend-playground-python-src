@@ -5,6 +5,5 @@ CREATE TABLE `member` (
   `age` int(1) unsigned DEFAULT NULL,
   `address1` VARCHAR(1024) DEFAULT NULL,
   `address2` VARCHAR(1024) DEFAULT NULL,
-
   PRIMARY KEY (`pk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

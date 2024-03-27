@@ -40,18 +40,44 @@ class AsyncRedisClient(RedisConnector):
         return self.async_redis_client
 
 
+class LiveUserConnection:
+    channels = {}
+
+    def add_user_on_channel(self, channel_id, websocket):
+        if channel_id not in self.channels:
+            self.channels[channel_id] = [websocket]
+        else:
+            self.channels[channel_id].append(websocket)
+
+    def remove_user_on_channel(self, channel_id, websocket):
+        self.channels[channel_id].remove(websocket)
+
+        if not self.channels[channel_id]:
+            self.channels.pop(channel_id)
+
+    def show(self):
+        print("Current Channels:", self.channels)
+
+
 class ConnectionManager:
     """ FastAPI의 WebSocket Conncetion(Active) 관리 """
+
+    live_user = LiveUserConnection()
 
     def __init__(self):
         self.active_connections: list[WebSocket] = []
 
-    async def connect(self, websocket: WebSocket):
+    async def connect(self, websocket: WebSocket, channel_id: str):
         await websocket.accept()
         self.active_connections.append(websocket)
 
-    def disconnect(self, websocket: WebSocket):
+        self.live_user.add_user_on_channel(channel_id=channel_id, websocket=websocket)
+        self.live_user.show()
+
+    def disconnect(self, websocket: WebSocket, channel_id):
         self.active_connections.remove(websocket)
+        self.live_user.remove_user_on_channel(channel_id=channel_id, websocket=websocket)
+        self.live_user.show()
 
     async def send_personal_message(self, message: str, websocket: WebSocket):
         await websocket.send_text(message)
