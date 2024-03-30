@@ -13,6 +13,7 @@ from sqlalchemy import alias
 from src.domain.member.value_object.address import Address
 from sqlalchemy.orm import Bundle
 from sqlalchemy.orm.attributes import set_committed_value
+from settings.dev import get_engine
 
 
 # version controal : https://stackoverflow.com/questions/60799213/sqlalchemy-version-id-col-and-version-id-generator-not-working-with-classical-ma

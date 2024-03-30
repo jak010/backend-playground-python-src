@@ -1,11 +1,16 @@
 from fastapi import FastAPI
+from sqladmin import Admin
 
+from settings.dev import get_engine
 from settings.dev import patch_ioc
 from src import backgrounds
 from src.api.concurrency_lock_test import *
 from src.api.relation_test import *
 from src.api.router_v2.index_router import index_router_v1
 from src.utils import start_mapper
+
+from admin.view import UserAmdinView
+from admin.authenticate import AdminAuthenticate
 
 
 class DemonstrationApplication:
@@ -37,4 +42,21 @@ class DemonstrationApplication:
         return self.app
 
 
+class DemonstrationAdminApplication:
+
+    def __init__(self, app, engine, authenticate=None):
+        self.admin_app = Admin(app, engine)
+
+    def add_view(self, model):
+        self.admin_app.add_view(model)
+
+
 demoapplication = DemonstrationApplication()
+
+# Admin Setting
+demoadminapplication = DemonstrationAdminApplication(
+    app=demoapplication.app,
+    engine=get_engine(),
+    authenticate=None
+)
+demoadminapplication.add_view(UserAmdinView)
