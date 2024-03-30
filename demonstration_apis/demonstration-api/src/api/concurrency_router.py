@@ -1,10 +1,9 @@
+import asyncio
 from time import sleep
 
 from fastapi import APIRouter
 
 concurrency_router = APIRouter(tags=["Conncurrency"], prefix="/api/v1/concurrency")
-
-import asyncio
 
 
 async def get_burgers(number: int):

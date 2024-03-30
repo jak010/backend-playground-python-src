@@ -4,10 +4,14 @@ from fastapi.responses import JSONResponse
 from fastapi.routing import APIRouter
 
 from src.domain.member.entity import MemberEntity, MemberProfileEntity
-
 from src.infra.repository import MemberRepositry, MemberProfileRepository
 
 api_router = APIRouter(tags=['RELATION'], prefix="/api/v1")
+
+
+@api_router.get(path="")
+def health_check():
+    return JSONResponse(status_code=200, content={})
 
 
 @api_router.post(
