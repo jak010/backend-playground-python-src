@@ -35,9 +35,9 @@ class DemonstrationApplication:
         self.app.include_router(concurrency_lock_test_router)
 
         # Background Task(with Thread)
-        threads = [backgrounds.OtherBackgroundProcessThread()]
-        for th in threads:
-            th.start()
+        # threads = [backgrounds.OtherBackgroundProcessThread()]
+        # for th in threads:
+        #     th.start()
 
         return self.app
 

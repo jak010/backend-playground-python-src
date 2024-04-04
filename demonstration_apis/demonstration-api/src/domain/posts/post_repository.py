@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 
 from src.domain.posts.post_entity import PostEntity, LikeIncreateLimitException
 from settings.dependency import DataBaseContainer
+from settings.abstracts import IRepository
 
 Entity = TypeVar("Entity")
 
@@ -17,16 +18,10 @@ class OptimisticLockFail(Exception):
     """ Optimistic Lock이 실패한다. """
 
 
-class IRepository(Generic[Entity], metaclass=ABCMeta):
-    session: Session = Provide[DataBaseContainer.session]
-
-
 class PostRepository(IRepository[PostEntity]):
 
-    def save(self, post_entity: PostEntity):
-        self.session.add(post_entity)
-        self.session.commit()
-        self.session.close()
+    def find_by_id(self) -> PostEntity:
+        ...
 
     def find_by_pk(self, pk: int) -> PostEntity:
         """ without lock """
