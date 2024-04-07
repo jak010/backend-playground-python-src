@@ -1,0 +1,1 @@
+CREATE DATABASE movie_app_test;
