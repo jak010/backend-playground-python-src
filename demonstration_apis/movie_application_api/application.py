@@ -1,10 +1,9 @@
 from fastapi import FastAPI
 
-from src.controller import controller_router
-
+from config.configuration import TMDBConfiguration, DataBaseConfiguration
+from config.container import TmdbContainer, DataBaseContainer
 from config.settings import LocalSetting
-from config.container import TmdbContainer
-from config.constants import TMDBConfig
+from src.controller import controller_router
 
 
 class MoveAppsApplication:
@@ -18,7 +17,8 @@ class MoveAppsApplication:
         )
         self.settings.adapter_patch(
             containers=[
-                TmdbContainer(tmdb_api_key=TMDBConfig.TMDB_API_READ_KEY.value)
+                DataBaseContainer(db_url=DataBaseConfiguration.get_db_url()),
+                TmdbContainer(tmdb_api_key=TMDBConfiguration.TMDB_API_READ_KEY.value),
             ]
         )
         self.settings.include_routers(

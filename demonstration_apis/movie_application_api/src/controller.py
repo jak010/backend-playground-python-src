@@ -1,3 +1,4 @@
+from fastapi import Depends
 from fastapi.responses import JSONResponse
 from fastapi.routing import APIRouter
 

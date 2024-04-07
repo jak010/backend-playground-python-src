@@ -26,7 +26,15 @@
 
 ## ENV
 
-```
-TMDB_API_KEY=
+- `.env`
 
-```
+  ```text
+  TMDB_API_KEY=
+  
+  DB_DRIVER=mysql+mysqldb
+  DB_USER=root
+  DB_PASSWORD=1234
+  DB_NAME=movie_app_db
+  DB_PORT=18001
+  DB_HOST=127.0.0.1
+  ```

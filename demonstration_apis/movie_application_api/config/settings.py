@@ -1,15 +1,8 @@
+from abc import ABCMeta, abstractmethod
 from typing import List
 
 from dependency_injector.containers import DeclarativeContainer
-from dotenv import load_dotenv
-import os
-from enum import Enum
-
-from abc import ABCMeta, abstractmethod
-
 from fastapi import FastAPI, APIRouter
-from config.container import TmdbContainer
-from config.constants import TMDBConfig
 
 
 class AbstractSetting(metaclass=ABCMeta):
