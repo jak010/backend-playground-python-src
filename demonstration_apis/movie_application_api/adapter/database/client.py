@@ -9,6 +9,7 @@ class DataBaseClient:
 
     def __init__(self, db_url):
         self.db_url = db_url
+
         self.engine = create_engine(
             self.db_url,
             pool_pre_ping=True,
@@ -17,6 +18,7 @@ class DataBaseClient:
             pool_timeout=15,
             echo=True,
         )
+
         self.session_factory = scoped_session(sessionmaker(
             bind=self.engine,
             expire_on_commit=False,
@@ -24,5 +26,5 @@ class DataBaseClient:
             autoflush=False
         ))
 
-    def session(self):
+    def get_session(self):
         return self.session_factory()

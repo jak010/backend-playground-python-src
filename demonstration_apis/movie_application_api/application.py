@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from config.configuration import TMDBConfiguration, DataBaseConfiguration
 from config.container import TmdbContainer, DataBaseContainer
 from config.settings import LocalSetting
-from src.controller import controller_router
+from src.member.controller import member_router
 
 
 class MoveAppsApplication:
@@ -23,7 +23,7 @@ class MoveAppsApplication:
         )
         self.settings.include_routers(
             routers=[
-                controller_router
+                member_router
             ]
         )
 
