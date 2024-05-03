@@ -5,10 +5,10 @@ from sqlalchemy.engine.url import URL
 
 class AbstarctDataBaseConnectionMeta:
     drivername = "mysql+mysqldb"
-    username = "root"
-    password = "1234"
+    username = "stnduser1"
+    password = "stnduser1"
     host = "0.0.0.0"
-    port = 19501
+    port = 6033
 
     database = None
 
@@ -25,7 +25,7 @@ class AbstarctDataBaseConnectionMeta:
 
 
 class TestDataBaseConnection(AbstarctDataBaseConnectionMeta):
-    database = 'test_demo'
+    database = 'demo'
 
 
 class DevDataBaseConnection(AbstarctDataBaseConnectionMeta):

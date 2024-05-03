@@ -24,6 +24,5 @@ orm.model.tables:
 	sqlacodegen --noclasses mysql+pymysql://root:1234@localhost:19501/demo > ./src/orm.py
 
 
-# Test Command
 load.test.post:
-	locust -f ./load-test/load-test-increase-like-post.py --host=http://127.0.0.1:8000 --processes 8
+	locust -f ./tests/locust/proxy_sql_test.py --host=http://127.0.0.1:8000 --processes 4

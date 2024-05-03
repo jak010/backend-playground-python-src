@@ -15,8 +15,8 @@ def get_engine():
         DevDataBaseConnection.get_url(),
         pool_pre_ping=True,
         pool_recycle=3600,
-        pool_size=10,
-        max_overflow=5,
+        pool_size=2,
+        max_overflow=0,
         pool_timeout=60,
         echo=True
     )

@@ -1,16 +1,14 @@
 from fastapi import FastAPI
 from sqladmin import Admin
 
-from settings.dev import get_engine
-from settings.dev import patch_ioc
-from src import backgrounds
+from admin.view import UserAmdinView
+from settings.dev import get_engine, patch_ioc
+
 from src.api.concurrency_lock_test import *
 from src.api.relation_test import *
 from src.api.router_v2.index_router import index_router_v1
+from src.api.proxysql.proxysql_controller import proxysql_api_router
 from src.utils import start_mapper
-
-from admin.view import UserAmdinView
-from admin.authenticate import AdminAuthenticate
 
 
 class DemonstrationApplication:
@@ -27,6 +25,7 @@ class DemonstrationApplication:
         self.app.include_router(api_router)
         self.app.include_router(api_router_value_object)
         self.app.include_router(api_router_many_to_one)
+        self.app.include_router(proxysql_api_router)
 
         # router test
         self.app.include_router(index_router_v1)

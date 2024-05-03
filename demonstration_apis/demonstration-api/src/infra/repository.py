@@ -29,6 +29,11 @@ class Repository(IRepository):
         self.session.commit()
         self.session.close()
 
+    def test(self):
+        self.session.execute("select 1;")
+        self.session.commit()
+        self.session.close()
+
 
 class MemberRepositry(Repository):
 
