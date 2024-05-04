@@ -4,7 +4,7 @@ from sqlalchemy import engine
 from sqlalchemy.orm import scoped_session, sessionmaker, Session
 from sqlalchemy.pool import QueuePool
 
-from settings._database import DevDataBaseConnection
+from settings._database import DevDataBaseConnection, DevProxyDataBaseConnection
 from typing import Callable
 
 CORE = int(os.cpu_count())
@@ -12,7 +12,7 @@ CORE = int(os.cpu_count())
 
 def get_engine():
     return engine.create_engine(
-        DevDataBaseConnection.get_url(),
+        DevProxyDataBaseConnection.get_url(),
         pool_pre_ping=True,
         pool_recycle=3600,
         pool_size=2,

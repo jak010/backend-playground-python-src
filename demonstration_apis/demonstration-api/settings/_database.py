@@ -8,7 +8,7 @@ class AbstarctDataBaseConnectionMeta:
     username = "stnduser1"
     password = "stnduser1"
     host = "0.0.0.0"
-    port = 6033
+    port = 3306
 
     database = None
 
@@ -29,4 +29,9 @@ class TestDataBaseConnection(AbstarctDataBaseConnectionMeta):
 
 
 class DevDataBaseConnection(AbstarctDataBaseConnectionMeta):
+    database = 'demo'
+
+
+class DevProxyDataBaseConnection(AbstarctDataBaseConnectionMeta):
+    port = 6033
     database = 'demo'
