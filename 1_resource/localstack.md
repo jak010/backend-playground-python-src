@@ -19,7 +19,7 @@ $ pip install awscli-local
           --count 1 \
           --instance-type t3.nano \
           --key-name my-key \
-          --security-group-ids 'sg-41aec5a31a1fd27c4'
+          --security-group-ids 'sg-7365b6be6c6f5d1c5'
       ```
     - Example
       ```json
