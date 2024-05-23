@@ -8,6 +8,7 @@ from src.api.concurrency_lock_test import *
 from src.api.relation_test import *
 from src.api.router_v2.index_router import index_router_v1
 from src.api.proxysql.proxysql_controller import proxysql_api_router
+from src.api.asynctic.router import mongodb_router
 from src.utils import start_mapper
 
 
@@ -32,6 +33,9 @@ class DemonstrationApplication:
 
         # Redis Lock Test
         self.app.include_router(concurrency_lock_test_router)
+
+        # MongoDB Test
+        self.app.include_router(mongodb_router)
 
         # Background Task(with Thread)
         # threads = [backgrounds.OtherBackgroundProcessThread()]
