@@ -3,7 +3,7 @@ import threading
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 
-from src.member.api import member_router
+from src.member.controller import endpoint
 
 from library.abstract import AbstractRdbRepsitory
 from external_library.database import SQLAlchemyConnector
@@ -45,7 +45,7 @@ class LayeredArchitecture:
     )
 
     def __call__(self, *args, **kwargs):
-        self.app.include_router(member_router)
+        self.app.include_router(endpoint.member_router)
 
         return self.app
 

@@ -1,7 +1,10 @@
 from src.member.repository import MemberRepository
 from library.transactional import Transactional
 
-from src.member.exceptions import MemberNotFound, AlreadyExistMember
+from src.member.service.exceptions import (
+    MemberNotFound,
+    AlreadyExistMember
+)
 
 from external_library.orm import Member
 

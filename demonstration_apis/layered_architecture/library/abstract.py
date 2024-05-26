@@ -14,6 +14,6 @@ class AbstractRdbRepsitory(Generic[M]):
 
     @classmethod
     def get_session(cls):
-        return SQLAlchemyConnector.get_session()
+        return cls.session
 
     def find_by_id(self, *args, **kwargs) -> M: ...
