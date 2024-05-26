@@ -1,3 +1,5 @@
+from typing import List
+
 from src.member.repository import MemberRepository
 from library.transactional import Transactional
 
@@ -11,6 +13,10 @@ from external_library.orm import Member
 
 class MemberService:
     member_repository = MemberRepository()
+
+    @Transactional
+    def get_members(self) -> List[Member]:
+        return self.member_repository.find_members()
 
     @Transactional
     def get_member(self, member_id: int):

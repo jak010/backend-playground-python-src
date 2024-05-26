@@ -44,7 +44,8 @@ class SQLAlchemyConnector:
         session = sessionmaker(
             bind=cls.engine,
             autoflush=False,
-            autocommit=False
+            autocommit=False,
+            expire_on_commit=False
         )
 
         return scoped_session(session)

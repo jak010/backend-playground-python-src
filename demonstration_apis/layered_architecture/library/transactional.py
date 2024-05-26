@@ -14,16 +14,13 @@ def Transactional(func):
         try:
             print("Transactionl", session)
             f = func(*args, **kwargs)
-
-
         except ServiceException as e:
             print(e.args)
             session.rollback()
             raise e
-        finally:
-            session.commit()
-            session.remove()
-            session.close()
+
+        session.commit()
+        session.remove()
 
         return f
 

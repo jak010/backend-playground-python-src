@@ -1,5 +1,9 @@
-from library.http.success import Normal
+from library.http.success import PaginateReponse, BaseSuccessResponse
 
 
-class MemberResponse(Normal):
+class MemberResponse(BaseSuccessResponse):
+    STATUS_CODE = 200
+
+
+class MemberPaginateResponse(PaginateReponse):
     STATUS_CODE = 200
