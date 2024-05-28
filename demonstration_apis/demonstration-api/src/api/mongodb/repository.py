@@ -33,11 +33,6 @@ class AsyncDocumenDBMangaer:
         self.client.close()
 
 
-# client.get_database(name=self.DATABASE).get_collection(icollection)
-#
-# return.start_session()
-
-
 class DocumentDBRepository:
     collection = "sample_airbnb"
 
@@ -47,6 +42,3 @@ class DocumentDBRepository:
     async def find_by_id(self, _id: str):
         async with AsyncDocumenDBMangaer(self.collection) as client:
             print(client)
-
-    # result = await self.collection.find_one({"_id": "1001265"})
-    # return result
