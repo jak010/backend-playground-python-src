@@ -1,0 +1,15 @@
+[Unit]
+Description=PettingDev-API
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/root/petting-api
+LimitNOFILE=4096
+Environment="PATH=/rrot/petting-api/venv/bin:$PATH"
+ExecStart=/rrot/petting-api/venv/bin/python3 -m gunicorn --bind 0:3301 src.application:PettingApplication --worker-class uvicorn.workers.UvicornWorker --workers 4
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

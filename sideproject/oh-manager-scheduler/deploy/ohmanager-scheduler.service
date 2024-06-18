@@ -1,0 +1,15 @@
+[Unit]
+Description=Oh-Manager Scheduler
+After=network.target
+
+[Service]
+User=ec2-user
+WorkingDirectory=/ohmanager-scheduler
+LimitNOFILE=4096
+Environment="PATH=/ohmanager-scheduler/venv/bin:$PATH"
+ExecStart=/ohmanager-scheduler/venv/bin/python application.py
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

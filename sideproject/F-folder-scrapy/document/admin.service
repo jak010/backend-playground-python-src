@@ -1,0 +1,15 @@
+[Unit]
+Description=Folder Admin
+After=network.target
+
+[Service]
+User=ec2-user
+WorkingDirectory=/src
+LimitNOFILE=4096
+Environment="PATH=/src/venv/bin:$PATH"
+ExecStart=/src/venv/bin/python3 -m uvicorn src.app:server --host 127.0.0.1 --port 3301 --workers 4
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

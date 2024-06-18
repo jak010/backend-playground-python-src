@@ -1,0 +1,15 @@
+[Unit]
+Description=OhManager-Dev
+After=network.target
+
+[Service]
+User=ec2-user
+WorkingDirectory=/ohmanager
+LimitNOFILE=4096
+Environment="PATH=/ohmanager/venv/bin:$PATH"
+ExecStart=/ohmanager/venv/bin/python3 -m uvicorn src.application:Application --host 127.0.0.1 --port 3301 --workers 4
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

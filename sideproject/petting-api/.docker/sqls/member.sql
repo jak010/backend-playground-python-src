@@ -1,0 +1,22 @@
+CREATE TABLE `member` (
+  `pk` int(1) unsigned NOT NULL AUTO_INCREMENT,
+  `nanoid` char(24) NOT NULL,
+  `name` varchar(32) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `channel` varchar(128) NOT NULL,
+  `referral_code` char(12) DEFAULT NULL,
+  `is_onboard` tinyint(1) unsigned DEFAULT '0',
+  `phone` varchar(20) NOT NULL,
+  `coin` int(1) unsigned DEFAULT '0',
+  `certificate_of_phone` tinyint(1) NOT NULL DEFAULT '0',
+  `certificate_of_phone_registered_at` datetime DEFAULT NULL,
+  `terms_of_age` tinyint(1) NOT NULL,
+  `terms_of_agreement` tinyint(1) NOT NULL,
+  `terms_of_privacy` tinyint(1) NOT NULL,
+  `terms_of_geolocation` tinyint(1) NOT NULL,
+  `terms_of_marketing` tinyint(1) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `modified_at` datetime NOT NULL,
+  PRIMARY KEY (`pk`),
+  UNIQUE KEY `member_email_index` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

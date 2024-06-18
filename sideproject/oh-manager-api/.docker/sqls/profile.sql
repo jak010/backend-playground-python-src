@@ -1,0 +1,21 @@
+CREATE TABLE `profile` (
+  `id` int(1) unsigned NOT NULL AUTO_INCREMENT,
+  `member_id` char(36) NOT NULL COMMENT 'ref, member.id',
+  `name` varchar(64) NOT NULL,
+  `description` TEXT DEFAULT NULL,
+  `profile_url` varchar(255) DEFAULT NULL,
+  `age` datetime DEFAULT NULL,
+  `gender` varchar(36) DEFAULT NULL,
+  `body_weight` int(1) DEFAULT NULL,
+  `body_height` int(1) DEFAULT NULL,
+  `country` varchar(36) DEFAULT NULL,
+  `address` varchar(128) DEFAULT NULL,
+  `instargram_url` varchar(255) DEFAULT NULL,
+  `facebook_url` varchar(255) DEFAULT NULL,
+  `twitter_url` varchar(255) DEFAULT NULL,
+  `profile_image` varchar(255) DEFAULT NULL,
+  `created_at` int(1) unsigned NOT NULL,
+  `modified_at` int(1) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `profile_index` (`member_id`,`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
