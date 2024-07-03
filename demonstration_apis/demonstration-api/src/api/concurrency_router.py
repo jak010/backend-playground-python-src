@@ -1,27 +1,33 @@
-import asyncio
-from time import sleep
+import threading
+import time
 
 from fastapi import APIRouter
+from fastapi.responses import JSONResponse
 
-concurrency_router = APIRouter(tags=["Conncurrency"], prefix="/api/v1/concurrency")
-
-
-async def get_burgers(number: int):
-    sleep(2)
-    result = number
-    return result
+nonblock_router = APIRouter(tags=["NonBlock"], prefix="/api/v1/non-block")
 
 
-async def get_numbers(number):
-    print(number)
-    return number
+class BackgroundThread(threading.Thread):
+    """ Basic """
+    daemon = True
+
+    def __init__(self, xid):
+        self.xid = xid
+        super().__init__()
+
+    def run(self) -> None:
+        time.sleep(self.xid)
+        print("Hello", self.xid)
 
 
-@concurrency_router.get("/test")
-async def read_burgers():
-    # XXX: TC 1
-    # buregers = await get_burgers(2)
+@nonblock_router.get("/test")
+def read_burgers():
+    for x in range(100_000_000):
+        pass
 
-    await asyncio.create_task(get_numbers(2))
+    ths = [BackgroundThread(1), BackgroundThread(2), BackgroundThread(3)]  # Case01, Thread를 실행시키고 Response를 반환한다.
 
-    return 2
+    for th in ths:
+        th.start()
+
+    return JSONResponse(status_code=200, content={})

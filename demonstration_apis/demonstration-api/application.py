@@ -5,6 +5,7 @@ from admin.view import UserAmdinView
 from settings.dev import get_engine, patch_ioc
 
 from src.api.concurrency_lock_test import *
+from src.api.concurrency_router import nonblock_router
 from src.api.relation_test import *
 from src.api.router_v2.index_router import index_router_v1
 from src.api.proxysql.proxysql_controller import proxysql_api_router
@@ -36,6 +37,9 @@ class DemonstrationApplication:
 
         # MongoDB Test
         self.app.include_router(mongodb_router)
+
+        # non block
+        self.app.include_router(nonblock_router)
 
         # Background Task(with Thread)
         # threads = [backgrounds.OtherBackgroundProcessThread()]
