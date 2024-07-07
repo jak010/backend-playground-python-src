@@ -23,30 +23,27 @@ def get_engine():
 
 
 def get_session(sa_engine):
-    _session = scoped_session(sessionmaker(
-        bind=sa_engine,
-        expire_on_commit=False,
-        autocommit=False,
-        autoflush=False
-    ))
+    _session = scoped_session(
+        sessionmaker(
+            bind=sa_engine,
+            expire_on_commit=False,
+            autocommit=False,
+            autoflush=False
+        )
+    )
 
     return _session
 
 
-# def get_db(session):
-#     yield session
-#
-#     session.commit()
-#     session.close()
-
-
 def get_db():
-    _session = scoped_session(sessionmaker(
-        bind=get_engine(),
-        expire_on_commit=False,
-        autocommit=False,
-        autoflush=False
-    ))
+    _session = scoped_session(
+        sessionmaker(
+            bind=get_engine(),
+            expire_on_commit=False,
+            autocommit=False,
+            autoflush=False
+        )
+    )
 
     yield _session
 
@@ -58,10 +55,7 @@ def patch_ioc():
     from settings.dependency import DataBaseContainer
 
     db = DataBaseContainer()
-    db.init_resources()
-    db.shutdown_resources()
+
     db.wire(
         packages=['src']
     )
-
-    return db

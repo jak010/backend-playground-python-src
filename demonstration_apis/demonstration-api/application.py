@@ -3,6 +3,7 @@ from sqladmin import Admin
 
 from admin.view import UserAmdinView
 from settings.dev import get_engine, patch_ioc
+from src.api.asynctic.endpoints import asyncio_router
 
 from src.api.concurrency_lock_test import *
 from src.api.concurrency_router import nonblock_router
@@ -40,6 +41,9 @@ class DemonstrationApplication:
 
         # non block
         self.app.include_router(nonblock_router)
+
+        # Asyncio Test
+        self.app.include_router(asyncio_router)
 
         # Background Task(with Thread)
         # threads = [backgrounds.OtherBackgroundProcessThread()]
