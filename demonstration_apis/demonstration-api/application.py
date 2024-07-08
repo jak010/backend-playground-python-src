@@ -12,6 +12,7 @@ from src.api.router_v2.index_router import index_router_v1
 from src.api.proxysql.proxysql_controller import proxysql_api_router
 from src.api.mongodb.endpoints import mongodb_router
 from src.utils import start_mapper
+from src.api.fileupload_example.fileupload_api import fileupload_router
 
 
 class DemonstrationApplication:
@@ -44,6 +45,9 @@ class DemonstrationApplication:
 
         # Asyncio Test
         self.app.include_router(asyncio_router)
+
+        # File Upload Test
+        self.app.include_router(fileupload_router)
 
         # Background Task(with Thread)
         # threads = [backgrounds.OtherBackgroundProcessThread()]
