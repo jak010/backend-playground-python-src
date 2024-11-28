@@ -1,0 +1,8 @@
+CREATE TABLE legacy_users (
+    id INT AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT NULL,
+    updated_at DATETIME DEFAULT NULL,
+    deleted_at DATETIME DEFAULT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; ;
