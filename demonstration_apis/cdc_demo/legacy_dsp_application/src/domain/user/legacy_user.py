@@ -1,5 +1,5 @@
 from typing import Optional
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 
 from datetime import datetime
 
@@ -25,3 +25,6 @@ class LegacyUser:
     def delete(self):
         # TODO, 241128 : add Domain Event
         self.deleted_at = datetime.now()
+
+    def to_dict(self):
+        return asdict(self)

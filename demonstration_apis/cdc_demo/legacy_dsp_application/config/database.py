@@ -3,7 +3,6 @@ from sqlalchemy.orm import Session, sessionmaker, scoped_session
 
 from .settings import DataBaseSettings
 
-print(DataBaseSettings.get_url_connection())
 engine = create_engine(DataBaseSettings.get_url_connection(), echo=True)
 
 

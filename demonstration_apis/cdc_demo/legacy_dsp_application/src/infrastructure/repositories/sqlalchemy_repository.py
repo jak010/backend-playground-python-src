@@ -1,9 +1,10 @@
 from dependency_injector.wiring import Provide
 from config.container import SqlAlchemyConatiner
+from sqlalchemy.orm import Session
 
 
 class ISqlalchemyRepository:
-    session = Provide[SqlAlchemyConatiner.session]
+    session: Session = Provide[SqlAlchemyConatiner.session]
 
     def save(self, model): ...
 

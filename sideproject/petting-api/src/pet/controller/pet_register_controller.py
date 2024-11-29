@@ -18,8 +18,8 @@ from src.pet.usecase.pet_register_usecase import (
     responses={
         400: {
             "content": {"application/json": {"examples": {
-                "PetRegisterLimitExceeded": {"value": s400.PetRegisterLimitExceededResponse.body()},
-                "PetRegisterDuplicate": {"value": s400.PetRegisterDuplicateResponse.body()},
+                "RESPONSE_EXAMPLE01": {"value": {"key": "value"}},
+                "RESPONSE_EXAMPLE02": {"value": {"key": "value"}},
             }}}
         }
     }

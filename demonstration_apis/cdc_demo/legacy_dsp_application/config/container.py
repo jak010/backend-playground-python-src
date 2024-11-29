@@ -4,4 +4,4 @@ from .database import session_factory
 
 
 class SqlAlchemyConatiner(containers.DeclarativeContainer):
-    session = providers.Singleton(session_factory)
+    session = providers.Factory(session_factory)
