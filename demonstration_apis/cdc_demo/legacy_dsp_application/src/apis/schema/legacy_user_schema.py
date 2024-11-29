@@ -1,4 +1,4 @@
-from fastapi import Path
+from fastapi import Path, Body
 from datetime import datetime
 from typing import Optional
 
@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 
 class LegacyUserResponse(BaseModel):  # TODO, 241129 : Info 객체에 의한 Generic 으로 리팩터링 하면 깔끔할 듯
-    id: int
+    id: Optional[int]
     name: str
 
     created_at: datetime
@@ -26,6 +26,14 @@ class LegacyUserRetreieveSchema:
         user_id: int = Path()
 
     class LegacyUserFetchResponse(LegacyUserResponse): ...
+
+
+class LegacyUserUpdateSchema:
+    class LegacyUserUpdateNameRequest(BaseModel):
+        user_id: int = Path()
+        name: str = Body()
+
+    class LegacyUserUpdateNameResponse(LegacyUserResponse): ...
 
 
 class LegacyUserDeleteSchema:

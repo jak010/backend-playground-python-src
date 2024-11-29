@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 
 from src.domain.user.legacy_user_service import LegacyUserService
 
-from .schema.legacy_user_schema import LegacyUserCreateSchema, LegacyUserRetreieveSchema, LegacyUserDeleteSchema
+from .schema.legacy_user_schema import LegacyUserCreateSchema, LegacyUserRetreieveSchema, LegacyUserDeleteSchema, LegacyUserUpdateSchema
 
 legacy_user = APIRouter(prefix="/api/v1/legacy-user", tags=["LEGACY-USER"])
 
@@ -35,16 +35,16 @@ def find(
     )
 
 
-@legacy_user.get(
+@legacy_user.put(
     path="/{user_id}/name",
-    response_model=LegacyUserRetreieveSchema.LegacyUserFetchResponse
+    response_model=LegacyUserUpdateSchema.LegacyUserUpdateNameResponse
 )
 def update_name(
-        request: LegacyUserRetreieveSchema.LegacyUserFetchRequest = Depends(LegacyUserRetreieveSchema.LegacyUserFetchRequest),
+        request: LegacyUserUpdateSchema.LegacyUserUpdateNameRequest = Depends(LegacyUserUpdateSchema.LegacyUserUpdateNameRequest),
         service: LegacyUserService = Depends(LegacyUserService)
 ):
-    search_user = service.search_legacy_user_by_id(user_id=request.user_id)
-    return LegacyUserRetreieveSchema.LegacyUserFetchResponse(
+    search_user = service.update_name(user_id=request.user_id, name=request.name)
+    return LegacyUserUpdateSchema.LegacyUserUpdateNameResponse(
         **search_user.to_dict()
     )
 
