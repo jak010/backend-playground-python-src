@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from .legacy_user import LegacyUser
 from .i_legacy_user_repository import ILegacyUserRepository
 
@@ -18,12 +20,17 @@ class LegacyUserService:
         user = self.repo.find_legacy_user_by_id(user_id=user_id)
         if user is None:
             raise HTTPException(status_code=404, detail="user not found")
-
+        if user.deleted_at is not None:
+            raise HTTPException(status_code=400, detail="this user is deleted")
         return user
 
     def delete_legacy_user_by_id(self, user_id: int) -> LegacyUser:
-        """ 유저 조회하기 """
-        return self.repo.delete_by_id(user_id=user_id)
+        """ 유저 삭제하기 (soft delete) """
+        user = self.repo.find_legacy_user_by_id(user_id=user_id)
+        if user is None:
+            raise HTTPException(status_code=404, detail="user not found")
+        user.deleted_at = datetime.now()
+        return self.repo.save_user(user)
 
     def update_name(self, user_id, name: str):
         """ 유저 이름 업데이트 """

@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends
+from fastapi.params import Path
 
 from src.domain.user.legacy_user_service import LegacyUserService
 
@@ -35,12 +36,12 @@ def find(
     )
 
 
-@legacy_user.put(
+@legacy_user.patch(
     path="/{user_id}/name",
     response_model=LegacyUserUpdateSchema.LegacyUserUpdateNameResponse
 )
 def update_name(
-        request: LegacyUserUpdateSchema.LegacyUserUpdateNameRequest = Depends(LegacyUserUpdateSchema.LegacyUserUpdateNameRequest),
+        request: LegacyUserUpdateSchema.LegacyUserUpdateNameRequest = Depends(LegacyUserUpdateSchema.LegacyUserUpdateNameRequest.as_body),
         service: LegacyUserService = Depends(LegacyUserService)
 ):
     search_user = service.update_name(user_id=request.user_id, name=request.name)

@@ -30,8 +30,18 @@ class LegacyUserRetreieveSchema:
 
 class LegacyUserUpdateSchema:
     class LegacyUserUpdateNameRequest(BaseModel):
-        user_id: int = Path()
-        name: str = Body()
+        user_id: int
+        name: str
+
+        @classmethod
+        def as_body(cls,
+                    user_id=Path(),
+                    name=Body(description="user name", embed=True)  # NOTE, 241130 : 단일값을 swagger에 요청받기
+                    ):
+            return cls(
+                user_id=user_id,
+                name=name
+            )
 
     class LegacyUserUpdateNameResponse(LegacyUserResponse): ...
 

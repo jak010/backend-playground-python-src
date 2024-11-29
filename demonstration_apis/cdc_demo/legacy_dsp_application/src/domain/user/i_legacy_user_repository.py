@@ -21,8 +21,3 @@ class ILegacyUserRepository(_ISqlalchemyRepository):
             user = query.first()
             self.session.commit()
             return user
-
-    def delete_by_id(self, user_id: int):
-        query = self.session.query(LegacyUser).filter(LegacyUser.id == user_id)
-        query.delete()
-        self.session.commit()
