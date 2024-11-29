@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from config import mapper, container
-
+from src.apis.campaign import legacy_campaign_router
 from src.apis.index import index_router
 from src.apis.user import legacy_user
 
@@ -23,6 +23,7 @@ class LegacyDSPApplication:
 
         self.app.include_router(index_router)
         self.app.include_router(legacy_user)
+        self.app.include_router(legacy_campaign_router)
 
         return self.app
 
