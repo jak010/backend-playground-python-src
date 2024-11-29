@@ -1,9 +1,12 @@
 from fastapi import APIRouter, Depends
-from fastapi.params import Path
 
-from src.domain.user.legacy_user_service import LegacyUserService
-
-from .schema.legacy_user_schema import LegacyUserCreateSchema, LegacyUserRetreieveSchema, LegacyUserDeleteSchema, LegacyUserUpdateSchema
+from src.domain.legacy_user.legacy_user_service import LegacyUserService
+from .schema.legacy_user_schema import (
+    LegacyUserCreateSchema,
+    LegacyUserRetreieveSchema,
+    LegacyUserDeleteSchema,
+    LegacyUserUpdateSchema
+)
 
 legacy_user = APIRouter(prefix="/api/v1/legacy-user", tags=["LEGACY-USER"])
 
@@ -50,9 +53,7 @@ def update_name(
     )
 
 
-@legacy_user.delete(
-    path="/{user_id}",
-)
+@legacy_user.delete(path="/{user_id}")
 def delete(
         request: LegacyUserDeleteSchema.LegacyUserRemoveRequest = Depends(LegacyUserDeleteSchema.LegacyUserRemoveRequest),
         service: LegacyUserService = Depends(LegacyUserService)
