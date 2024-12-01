@@ -27,3 +27,16 @@ class LegacyCampaign(Base):
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
     deleted_at = Column(DateTime)
+
+
+class LegacyAdgroup(Base):
+    __tablename__ = 'legacy_adgroup'
+
+    id = Column(INTEGER(11), primary_key=True)
+    name = Column(String(255, 'utf8_unicode_ci'), nullable=False)
+    campaign_id = Column(INTEGER(11), nullable=False)
+    user_id = Column(INTEGER(11), nullable=False)
+    link_url = Column(String(255, 'utf8_unicode_ci'), nullable=False)
+    created_at = Column(DateTime, nullable=False)
+    updated_at = Column(DateTime, nullable=False)
+    deleted_at = Column(DateTime)

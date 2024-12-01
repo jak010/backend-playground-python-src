@@ -36,4 +36,5 @@ class LegacyAdGroup:
 
     def delete(self):
         self.deleted_at = datetime.now()
+        return self
         # TODO, 241130 : add domain event

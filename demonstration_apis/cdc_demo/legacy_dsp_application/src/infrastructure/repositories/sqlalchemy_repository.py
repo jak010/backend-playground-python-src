@@ -2,7 +2,7 @@ from dependency_injector.wiring import Provide
 from config.container import SqlAlchemyConatiner
 from sqlalchemy.orm import Session
 
-from typing import Generic, TypeVar, get_args, Type
+from typing import Generic, TypeVar, get_args, Type, Optional
 
 T = TypeVar("T")
 
@@ -39,13 +39,10 @@ class ISqlalchemyRepositoryV2(Generic[T]):
         query = self.session.query(self.model).filter(self.model.id == pk).one_or_none()
         if query:
             return query.delete()
-        raise Exception("Not Exist Entity Error")
 
-    def find_by_id(self, pk: int):
-        query = self.session.query(self.model).filter(self.model.id == pk).one_or_none()
-        if query:
-            return query
-        raise Exception("Not Exist Entity Error")
+    def find_by_id(self, pk: int) -> Optional[T]:
+        return self.session.query(self.model).filter(self.model.id == pk) \
+            .one_or_none()
 
     def __get_inference_model(self):  # NOTE, 241130 : Generic "T" inference
         return self.__orig_bases__[0].__args__[0]
