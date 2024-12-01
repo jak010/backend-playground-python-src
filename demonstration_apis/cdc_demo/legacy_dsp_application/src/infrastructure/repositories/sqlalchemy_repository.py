@@ -25,6 +25,9 @@ class ISqlalchemyRepository:
 class ISqlalchemyRepositoryV2(Generic[T]):
     session: Session = Provide[SqlAlchemyConatiner.session]
 
+    def __init__(self):
+        self.model = self.__get_inference_model()
+
     def save(self, model):
         self.session.add(model)
         self.session.commit()
@@ -33,19 +36,16 @@ class ISqlalchemyRepositoryV2(Generic[T]):
         return model
 
     def delete_by_id(self, pk: int):
-        model = self.__get_model()
-        query = self.session.query(model).filter(model.id == pk).one_or_none()
+        query = self.session.query(self.model).filter(self.model.id == pk).one_or_none()
         if query:
             return query.delete()
         raise Exception("Not Exist Entity Error")
 
     def find_by_id(self, pk: int):
-        model = self.__get_model()
-
-        query = self.session.query(model).filter(model.id == pk).one_or_none()
+        query = self.session.query(self.model).filter(self.model.id == pk).one_or_none()
         if query:
             return query
         raise Exception("Not Exist Entity Error")
 
-    def __get_model(self):  # NOTE, 241130 : Generic "T" inference
+    def __get_inference_model(self):  # NOTE, 241130 : Generic "T" inference
         return self.__orig_bases__[0].__args__[0]
