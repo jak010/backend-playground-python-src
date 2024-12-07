@@ -1,11 +1,17 @@
+from __future__ import annotations
+
 from typing import Optional
 from dataclasses import dataclass, field, asdict
 
 from datetime import datetime
 
+from src.domain.abstract_aggregate_root import AbstactAggregateRoot
+
+from .event.legacy_user_updated_name_event import LegacyUserUpdatedNamedEvent
+
 
 @dataclass
-class LegacyUser:
+class LegacyUser(AbstactAggregateRoot["LegacyUser"]):
     id: Optional[int] = field(default=None)
     name: str = field(default=None)
 
@@ -21,6 +27,11 @@ class LegacyUser:
         # TODO, 241128 : add Domain Event
         self.name = name
         self.updated_at = datetime.now()
+
+        # Event Published
+        self.register_event(
+            LegacyUserUpdatedNamedEvent(self)
+        )
 
     def delete(self):
         # TODO, 241128 : add Domain Event

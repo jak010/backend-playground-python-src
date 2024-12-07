@@ -1,7 +1,13 @@
+from __future__ import annotations
+
 import datetime
 from abc import abstractmethod
 from src.domain.event import DomainEvent, AggregatedType
-from ..legacy_user import LegacyUser
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from ..legacy_user import LegacyUser
 
 
 class LegacyUserEvent(DomainEvent):

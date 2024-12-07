@@ -38,5 +38,5 @@ class LegacyUserService:
         if user is None:
             raise HTTPException(status_code=404, detail="user not found")
 
-        user.name = name
+        user.update_name(name=name)
         return self.repo.save_user(user)
