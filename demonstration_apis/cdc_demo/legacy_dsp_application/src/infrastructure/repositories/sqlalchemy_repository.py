@@ -44,5 +44,8 @@ class ISqlalchemyRepositoryV2(Generic[T]):
         return self.session.query(self.model).filter(self.model.id == pk) \
             .one_or_none()
 
+    def find(self):
+        return self.session.query(self.model).all()
+
     def __get_inference_model(self):  # NOTE, 241130 : Generic "T" inference
         return self.__orig_bases__[0].__args__[0]

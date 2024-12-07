@@ -40,3 +40,14 @@ class LegacyAdgroup(Base):
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=False)
     deleted_at = Column(DateTime)
+
+
+class LegacyKeyword(Base):
+    __tablename__ = 'legacy_keyword'
+
+    id = Column(INTEGER(10), primary_key=True)
+    text = Column(String(255), nullable=False)
+    adgroup_id = Column(INTEGER(10), nullable=False)
+    user_id = Column(INTEGER(10), nullable=False)
+    created_at = Column(DateTime, nullable=False)
+    deleted_at = Column(DateTime)

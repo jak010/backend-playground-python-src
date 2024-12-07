@@ -31,3 +31,12 @@ CREATE TABLE legacy_adgroup (
   deleted_at DATETIME,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE legacy_keyword (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    text VARCHAR(255) NOT NULL,
+    adgroup_id INT UNSIGNED NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_at DATETIME
+) ENGINE=InnoDB CHARACTER SET=utf8 COLLATE=utf8_unicode_ci;

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 
-from src.domain.legacy_user.legacy_user_service import LegacyUserService
+from src.domain.user.legacy_user_service import LegacyUserService
 from .schema.legacy_user_schema import (
     LegacyUserCreateSchema,
     LegacyUserRetreieveSchema,
