@@ -24,7 +24,10 @@ class LegacyKeyword:
         )
 
     def delete(self):
+        if self.deleted_at is not None:
+            raise Exception("Already Deleted")
         self.deleted_at = datetime.now()
+        return self
 
     def to_dict(self):
         return asdict(self)
