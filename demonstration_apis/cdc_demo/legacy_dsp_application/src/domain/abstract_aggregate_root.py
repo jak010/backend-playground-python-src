@@ -8,7 +8,6 @@ class AbstactAggregateRoot(Generic[T]):
     events: List[DomainEvent] = []
 
     def register_event(self, model: DomainEvent):
-        print("log", self.events)
         self.events.append(model)
 
     def clear_events(self):
