@@ -7,11 +7,14 @@ T = TypeVar("T")
 class AbstactAggregateRoot(Generic[T]):
     events: List[DomainEvent] = []
 
-    def register_event(self, model: DomainEvent):
-        self.events.append(model)
+    @classmethod
+    def register_event(cls, model: DomainEvent):
+        cls.events.append(model)
 
-    def clear_events(self):
-        self.events = []
+    @classmethod
+    def clear_events(cls):
+        cls.events = []
 
-    def domain_events(self):
-        return self.events
+    @classmethod
+    def domain_events(cls):
+        return cls.events

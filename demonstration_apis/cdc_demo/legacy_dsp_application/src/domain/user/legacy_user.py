@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-from typing import Optional
 from dataclasses import dataclass, field, asdict
-
 from datetime import datetime
+from typing import Optional
 
 from src.domain.abstract_aggregate_root import AbstactAggregateRoot
-
+from .event.legacy_user_create_event import LegacyUserCreateEvent
+from .event.legacy_user_delete_event import LegacyUserDeleteEvent
 from .event.legacy_user_updated_name_event import LegacyUserUpdatedNamedEvent
 
 
@@ -21,7 +21,9 @@ class LegacyUser(AbstactAggregateRoot["LegacyUser"]):
 
     @classmethod
     def of(cls, name: str):
-        return cls(name=name)
+        _new_user = cls(name=name)
+        cls.register_event(LegacyUserCreateEvent(_new_user))
+        return _new_user
 
     def update_name(self, name):
         # TODO, 241128 : add Domain Event
@@ -36,6 +38,7 @@ class LegacyUser(AbstactAggregateRoot["LegacyUser"]):
     def delete(self):
         # TODO, 241128 : add Domain Event
         self.deleted_at = datetime.now()
+        self.register_event(LegacyUserDeleteEvent(self))
 
     def to_dict(self):
         return asdict(self)
