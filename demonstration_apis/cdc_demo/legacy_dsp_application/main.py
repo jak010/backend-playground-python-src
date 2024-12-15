@@ -7,14 +7,22 @@ from src.apis.index import index_router
 from src.apis.user import legacy_user
 from src.apis.keyword import legacy_keyword_router
 
+from config import event_middleware
+
 
 class LegacyDSPApplication:
-    containers = [container.SqlAlchemyConatiner()]
+    containers = [
+        container.SqlAlchemyConatiner(),
+        container.EventContainer()
+    ]
 
     def __init__(self):
         self.app = FastAPI(
             title="Legacy DSP API",
             description="Legacy DSP API Document"
+        )
+        self.app.add_middleware(
+            event_middleware.ApplicationEventMiddleware
         )
 
     def __call__(self, *args, **kwargs):

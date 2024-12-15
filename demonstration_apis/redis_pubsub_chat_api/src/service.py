@@ -115,7 +115,7 @@ class RedisChannelMessenger:
         self.connection: PubSub = self.async_redis_client.client.pubsub()
 
     async def send_message(self, message_payload: str):
-        await self.async_redis_client.client.publish(
+        await self.async_redis_client.client.handle_event(
             self.channel,
             message=message_payload
         )

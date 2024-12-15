@@ -84,12 +84,14 @@ async def send_file(
 
     to_base64 = base64.b64encode(await file.read())
     user_id = random.randint(1, 10000)
-    messages = json.dumps({
-        "timestamp": datetime.datetime.now(),
-        "sender": user_id,
-        "file": to_base64.decode()
-    })
-    await async_redis_client.client.publish(channel_id, messages)
+    messages = json.dumps(
+        {
+            "timestamp": datetime.datetime.now(),
+            "sender": user_id,
+            "file": to_base64.decode()
+        }
+    )
+    await async_redis_client.client.handle_event(channel_id, messages)
     await async_redis_client.client.rpush(channel_id, messages)
 
     await file.close()

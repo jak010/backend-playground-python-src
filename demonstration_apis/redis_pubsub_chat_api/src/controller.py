@@ -178,4 +178,4 @@ async def websocket_endpoint_v1(
     receive_data = json.loads(data)
 
     await asyncio.sleep(0.01)
-    await redis_client.client.publish(channel=room_name, message=str(receive_data['message']))
+    await redis_client.client.handle_event(channel=room_name, message=str(receive_data['message']))
