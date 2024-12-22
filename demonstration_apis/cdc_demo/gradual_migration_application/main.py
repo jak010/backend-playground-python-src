@@ -1,29 +1,19 @@
-from fastapi import FastAPI
-
+import asyncio
 from contextlib import asynccontextmanager
 
+from fastapi import FastAPI
+
 from src.application.event_listener import LegacyDomainEventListener
-import asyncio
-from fastapi.concurrency import run_in_threadpool
-import anyio.to_thread
 
 
 @asynccontextmanager
 async def lifespace(app):
     print("Start")
 
-    e = LegacyDomainEventListener()
-
+    e = LegacyDomainEventListener(app)
     asyncio.create_task(e.handle_event())
-    #
-    # await run_in_threadpool(e.handle_event, 1200)
-
-    # asyncio.create_task(
-    #     await e.handle_event()
-    # )
 
     yield
-    print("End")
 
 
 class GradualMigrationApplication:
