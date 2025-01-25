@@ -1,29 +1,39 @@
-import pytest
+# import pytest
 
-from _pytest.reports import TestReport
+# from _pytest.reports import TestReport
+# from _pytest.fixtures import FuncFixtureInfo
+from _pytest.python import Function
 
-# @pytest.hookimpl(hookwrapper=True)
-# def pytest_runtest_makereport(item, call):
-#     outcome = yield
-#     report: TestReport = outcome.get_result()
+
+# # @pytest.hookimpl(hookwrapper=True)
+# # def pytest_runtest_makereport(item, call):
+# #     outcome = yield
+# #     report: TestReport = outcome.get_result()
+# #
+# #     test_fn = item.obj
+# #     docstring = getattr(test_fn, '__doc__')
+# #     if docstring:
+# #         report.location = docstring, 0, docstring
+# #         report.longreprtext = docstring
 #
-#     test_fn = item.obj
-#     docstring = getattr(test_fn, '__doc__')
-#     if docstring:
-#         report.location = docstring, 0, docstring
-#         report.longreprtext = docstring
+# from _pytest.terminal import TerminalReporter
+#
+#
+# # @pytest.hookimpl(tryfirst=True, hookwrapper=True)
+# # def pytest_runtest_makereport(item, call):
+# #     outcome = yield
+# #     report: TestReport = outcome.get_result()
+# #     import sys
+# #
+# #     if report.when == "call":
+# #         docstring = getattr(item.obj, '__doc__')
+# #         report.nodeid = docstring
 
-from _pytest.terminal import TerminalReporter
+def pytest_itemcollected(item: Function):
+    """ change test name, using fixture names """
 
-
-@pytest.hookimpl(tryfirst=True, hookwrapper=True)
-def pytest_runtest_makereport(item, call):
-    outcome = yield
-    report = outcome.get_result()
-    if report.when == "call":
-        docstring = getattr(item.obj, '__doc__')
-        print(f"::{docstring}")
-        fixture_extras = getattr(item.config, "extras", [])
-        plugin_extras = getattr(report, "extra", [])
-
-        report.extra = fixture_extras + plugin_extras
+    target_object = item._obj
+    if target_object:
+        item._nodeid = f"{item.nodeid}:{getattr(target_object, '__doc__')}"
+    if target_object is None:
+        raise Exception("target_object is None")
