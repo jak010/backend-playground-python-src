@@ -2,9 +2,9 @@ from typing import List
 
 from sqlalchemy.orm import registry, relationship, foreign
 
-from usage_libs.sqlalchemy_imperative_mapping_style import utils
-from usage_libs.sqlalchemy_imperative_mapping_style.examples import base_model
-from usage_libs.sqlalchemy_imperative_mapping_style.examples._entity import MemberProfileEntity
+from usages.sqlalchemy_imperative_mapping_style import utils
+from usages.sqlalchemy_imperative_mapping_style.examples import base_model
+from usages.sqlalchemy_imperative_mapping_style.examples._entity import MemberProfileEntity
 
 
 class MemberEntity:
