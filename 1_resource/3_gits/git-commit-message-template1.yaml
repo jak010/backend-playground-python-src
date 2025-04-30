@@ -1,0 +1,42 @@
+commit_message_guide:
+  overview:
+    description: >
+      커밋 메시지는 해당 커밋이 해결하려는 문제에 대해 설명합니다.
+      무엇을 왜 했는지를 중점적으로 작성합니다.
+    guidelines:
+      - 설명의 초점은 "무엇을 했는가"보다 "왜 했는가"에 맞춥니다.
+      - 변경으로 인한 부수 효과나 직관적이지 않은 영향이 있다면 본문에 명시합니다.
+      - 메시지는 한 줄당 약 72자 이내로 작성합니다.
+      - 첫 줄은 제목으로 간주되며, 그 이후는 본문으로 처리됩니다.
+      - 제목과 본문 사이에는 반드시 공백 행을 추가합니다.
+      - 본문 이후 추가 문단도 공백 행 뒤에 작성합니다.
+      - 강조를 위해 하이픈(-) 또는 별표(*)를 사용하며, 이후에 단일 공백(space)을 추가합니다.
+
+commit_message_types:
+  feat: "새로운 기능 추가 (feature)"
+  fix: "버그 수정 (bug fix)"
+  docs: "문서 수정 (README, WIKI 등)"
+  style: "코드 스타일 변경 (포매팅, 세미콜론 누락 등)"
+  refactor: "리팩토링 (기능 변화 없이 구조만 개선)"
+  perf: "성능 개선 (performance improvement)"
+  test: "테스트 코드 추가 또는 수정"
+  build: "빌드 시스템 또는 외부 의존성 변경 (예: gradle, npm)"
+  ci: "CI 설정 변경 (예: GitHub Actions, Travis, Jenkins)"
+  chore: "잡무 처리 (빌드 업무 제외, 예: 패키지 업데이트)"
+  revert: "이전 커밋 되돌리기"
+
+commit_message_formatting_rules:
+  title:
+    required: true
+    format: "<commit_message_types>, <title>"
+    max_length: 50
+  body:
+    required: true
+    format: "<body>: (선택, 변경 이유와 추가 정보를 설명)"
+    wrap_at: 120
+  footer:
+    required: false
+    format: "<footer>: (선택, BREAKING CHANGE 및 이슈 번호 참조)"
+  spacing:
+    between_title_and_body: true
+    between_body_and_next_paragraph: true

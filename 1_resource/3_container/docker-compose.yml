@@ -1,0 +1,27 @@
+version: '3'
+services:
+
+  sample_db:
+    image: mysql:5.7-debian
+    platform: linux/amd64
+    ports:
+      - "19501:3306"
+    expose:
+      - "19501"
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: demo
+    volumes:
+      - "./sqls/:/docker-entrypoint-initdb.d/"
+    command:
+      - --character-set-server=utf8
+      - --collation-server=utf8_general_ci
+
+  sample_redis:
+    image: redis:latest
+    ports:
+      - "6380:6379"
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    restart: always
