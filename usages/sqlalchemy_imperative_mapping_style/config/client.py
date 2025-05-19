@@ -16,22 +16,24 @@ DB_URL = URL.create(
     port=19501
 )
 
-db_engine = engine.create_engine(
-    DB_URL,
-    pool_pre_ping=True,
-    pool_recycle=3600,
-    pool_size=5,
-    max_overflow=5,
-    pool_timeout=10,
-    echo=True
-)
+
+def get_engine() -> engine.Engine:
+    return engine.create_engine(
+        DB_URL,
+        pool_pre_ping=True,
+        pool_recycle=3600,
+        pool_size=20,
+        max_overflow=30,
+        pool_timeout=10,
+        echo=False
+    )
 
 
-def get_session() -> Session:
+def get_session(engine) -> Session:
     db_session = scoped_session(sessionmaker(
-        bind=db_engine,
+        bind=engine,
         expire_on_commit=False,
         autocommit=False,
         autoflush=False
     ))
-    return db_session()
+    return db_session

@@ -1,12 +1,13 @@
 CREATE TABLE `member` (
-  `pk` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nanoid` CHAR(24) NOT NULL,
-  `name` VARCHAR(32) DEFAULT NULL,
-  `age` TINYINT UNSIGNED DEFAULT NULL,
-  `address1` VARCHAR(1024) DEFAULT NULL,
-  `address2` VARCHAR(1024) DEFAULT NULL,
-  PRIMARY KEY (`pk`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `pk` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `nanoid` char(24) NOT NULL,
+  `name` varchar(32) DEFAULT NULL,
+  `age` tinyint(3) unsigned DEFAULT NULL,
+  `address1` varchar(1024) DEFAULT NULL,
+  `address2` varchar(1024) DEFAULT NULL,
+  PRIMARY KEY (`pk`),
+  KEY `member_name_IDX` (`name`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 
 
 
