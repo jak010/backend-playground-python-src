@@ -1,10 +1,9 @@
-from sqlalchemy.engine.url import URL
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, Session
-
 import os
+
 from sqlalchemy import engine
+from sqlalchemy.engine.url import URL
 from sqlalchemy.orm import scoped_session
+from sqlalchemy.orm import sessionmaker, Session
 
 CORE = int(os.cpu_count())
 
@@ -28,11 +27,11 @@ db_engine = engine.create_engine(
 )
 
 
-def get_session():
-    db_session: Session = scoped_session(sessionmaker(
+def get_session() -> Session:
+    db_session = scoped_session(sessionmaker(
         bind=db_engine,
         expire_on_commit=False,
         autocommit=False,
         autoflush=False
     ))
-    return db_session
+    return db_session()
