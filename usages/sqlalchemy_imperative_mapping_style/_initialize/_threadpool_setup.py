@@ -1,87 +1,70 @@
 import os
 import random
-import threading
-import uuid
-from concurrent.futures import ThreadPoolExecutor, as_completed
-
-import nanoid
-# from sqlalchemy.orm.session import Session
-from sqlalchemy.engine import Engine
+import time
 
 from usages.sqlalchemy_imperative_mapping_style.config.client import get_session, get_engine
 from usages.sqlalchemy_imperative_mapping_style.config.sa_models import Member
 from usages.sqlalchemy_imperative_mapping_style.config.start_mappers import start_mapper
-import pandas as pd
+
+from concurrent.futures import ThreadPoolExecutor
 
 INSERT_DATA_COUNT = 1_000_000
 
-from functools import lru_cache
+
+def get_random_with_urandom():
+    return os.urandom(16).hex()  # 16바이트 = 128비트
+
+
+def generate_member_object():
+    start_time = time.time()
+
+    grouping = []
+    for x in range(INSERT_DATA_COUNT):
+        _new_nanoid = get_random_with_urandom()[0:3]
+        _new_name = get_random_with_urandom()[0:3]
+        _new_age = random.randint(1, 100)
+        _address1 = get_random_with_urandom()[0:10]
+        _address2 = get_random_with_urandom()[0:10]
+        grouping.append(Member(
+            nanoid=_new_nanoid,
+            name=_new_name,
+            age=_new_age,
+            address1=_address1,
+            address2=_address2
+        ))
+
+    print("MEMBER OBJECT SPENT TIME", time.time() - start_time)
+
+    return grouping
 
 
 def worker(engine, data):
-    print(f'inserted: {len(data)}')
-
-    # ORM
     _session = get_session(engine)
-    print(os.getpid(), threading.get_ident())
-
-    _session.bulk_insert_mappings(Member, [{
-        'nanoid': m.nanoid,
-        'name': m.name,
-        'age': m.age,
-        'address1': m.address1,
-        'address2': m.address2
-    } for m in data])
-
+    _session.bulk_save_objects(data)
     _session.commit()
     _session.close()
 
 
-threads = []
+def write_thread_member(engine, data):
+    import time
+    start_time = time.time()
+    chunk_size = 20_000
 
+    worker_count = os.cpu_count()
+    with ThreadPoolExecutor(max_workers=worker_count) as executor:
+        for i in range(0, INSERT_DATA_COUNT, chunk_size):
+            chunk = data[i:i + chunk_size]
+            executor.submit(worker, engine, chunk)
 
-def generate_member():
-    for _ in range(INSERT_DATA_COUNT):
-        yield Member(
-            nanoid=nanoid.generate(size=24),
-            name=str(uuid.uuid4().hex[0:5]),
-            age=random.randint(1, 100),
-            address1=uuid.uuid4().hex,
-            address2=uuid.uuid4().hex
-        )
-
-
-def get_member(engine, exe):
-    grouping = []
-    futures = []
-
-    count = 0
-    for member in generate_member():
-        count += 1
-        grouping.append(member)
-
-        if count >= 500:
-            count = 0
-            futures.append(exe.submit(worker, engine, grouping.copy()))
-            grouping.clear()
-
-    return futures
+    print(time.time() - start_time)
 
 
 if __name__ == '__main__':
-    import time
-
-    start_time = time.time()
     engine = get_engine()
 
     start_mapper()
 
-    max_workers = os.cpu_count() * 2 + 1
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = get_member(engine, executor)
-
-        for f in as_completed(futures):
-            f.result()
+    # 9초
+    write_thread_member(engine=engine, data=generate_member_object())
 
     engine.dispose()
-    print(time.time() - start_time)
