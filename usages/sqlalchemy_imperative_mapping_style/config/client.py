@@ -8,7 +8,7 @@ from sqlalchemy.orm import sessionmaker, Session
 CORE = int(os.cpu_count())
 
 DB_URL = URL.create(
-    drivername="mysql+mysqldb",
+    drivername="mysql+pymysql",
     username='root',
     password="1234",
     database="demo",
@@ -22,8 +22,8 @@ def get_engine() -> engine.Engine:
         DB_URL,
         pool_pre_ping=False,
         pool_recycle=3600,
-        pool_size=20,
-        max_overflow=30,
+        pool_size=50,
+        max_overflow=100,
         pool_timeout=10,
         echo=False
     )
