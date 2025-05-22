@@ -23,7 +23,7 @@ def insert_member():
 
     ths = []
 
-    chunk_size = 10_000
+    chunk_size = 20_000
     for i in range(0, len(members), chunk_size):
         member_chnuk = members[i:i + chunk_size]
         th = threading.Thread(target=save_member, args=(engine, member_chnuk))
