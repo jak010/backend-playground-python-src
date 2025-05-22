@@ -3,7 +3,7 @@ import time
 
 from MySQLdb import Connection
 
-from usages.sqlalchemy_imperative_mapping_style._initialize.notepad import generate_member_object
+from usages.database_usecase._initialize.notepad import generate_member_object
 
 
 def save_member(members):

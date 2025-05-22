@@ -1,9 +1,9 @@
 import time
 
-from usages.sqlalchemy_imperative_mapping_style._initialize.notepad import generate_member_object
-from usages.sqlalchemy_imperative_mapping_style.config.client import get_session, get_engine
-from usages.sqlalchemy_imperative_mapping_style.config.sa_models import Member
-from usages.sqlalchemy_imperative_mapping_style.config.start_mappers import start_mapper
+from usages.database_usecase._initialize.notepad import generate_member_object
+from usages.database_usecase.config.client import get_session, get_engine
+from usages.database_usecase.config.sa_models import Member
+from usages.database_usecase.config.start_mappers import start_mapper
 
 
 def insert_member():

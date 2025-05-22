@@ -4,9 +4,23 @@ import os
 import random
 import uuid
 
-from usages.sqlalchemy_imperative_mapping_style.config.sa_models import Member
+from usages.database_usecase.config.sa_models import Member
 
 import nanoid
+
+# from dataclasses import dataclass, asdict
+# @dataclass
+# class Member:
+#     nanoid: str
+#     name: str
+#     age: int
+#     address1: str
+#     address2: str
+#
+#
+#     def to_dict(self):
+#         return asdict(self)
+#
 
 MILLION = 1_000_000
 
