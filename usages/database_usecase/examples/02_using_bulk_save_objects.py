@@ -2,7 +2,6 @@ import time
 
 from usages.database_usecase._initialize.notepad import generate_member_object
 from usages.database_usecase.config.client import get_session, get_engine
-from usages.database_usecase.config.start_mappers import start_mapper
 
 
 def save_member(engine, members):
@@ -28,6 +27,4 @@ def insert_member():
 
 
 if __name__ == '__main__':
-    start_mapper()
-
     insert_member()
