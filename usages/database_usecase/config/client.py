@@ -25,7 +25,7 @@ def get_engine() -> engine.Engine:
         pool_size=50,
         max_overflow=100,
         pool_timeout=10,
-        echo=False
+        echo=True
     )
 
 

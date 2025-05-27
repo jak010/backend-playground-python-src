@@ -1,6 +1,6 @@
 from sqlalchemy import CHAR, Column, String
 from sqlalchemy.dialects.mysql import INTEGER, TINYINT
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
 metadata = Base.metadata

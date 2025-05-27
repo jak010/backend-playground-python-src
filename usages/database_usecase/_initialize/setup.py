@@ -2,9 +2,8 @@ import os
 import random
 import time
 
-from usages.sqlalchemy_imperative_mapping_style.config.client import get_session, get_engine
-from usages.sqlalchemy_imperative_mapping_style.config.sa_models import Member
-from usages.sqlalchemy_imperative_mapping_style.config.start_mappers import start_mapper
+from usages.database_usecase.config.client import get_session, get_engine
+from usages.database_usecase.config.sa_models import Member
 
 INSERT_DATA_COUNT = 1_000_000
 
@@ -56,8 +55,6 @@ def write_member(engine):
 
 if __name__ == '__main__':
     engine = get_engine()
-
-    start_mapper()
 
     write_member(engine)
 
