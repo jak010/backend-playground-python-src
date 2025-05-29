@@ -20,12 +20,12 @@ DB_URL = URL.create(
 def get_engine() -> engine.Engine:
     return engine.create_engine(
         DB_URL,
-        pool_pre_ping=False,
+        pool_pre_ping=True,
         pool_recycle=3600,
         pool_size=50,
-        max_overflow=100,
-        pool_timeout=10,
-        echo=True
+        max_overflow=200,
+        pool_timeout=30,
+        echo=False
     )
 
 
