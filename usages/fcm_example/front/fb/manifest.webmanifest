@@ -1,0 +1,17 @@
+{
+  "name": "My Web App",
+  "short_name": "WebApp",
+  "description": "iOS용 설치 가능한 웹앱입니다",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#007aff",
+  "orientation": "portrait",
+  "icons": [],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "scope": "/",
+  "categories": ["utilities", "productivity"],
+  "lang": "ko-KR",
+  "dir": "ltr"
+}

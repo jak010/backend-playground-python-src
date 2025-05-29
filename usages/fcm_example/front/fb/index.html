@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>FCM 테스트</title>
+    <link rel="manifest" href="/manifest.webmanifest" />
+</head>
+
+<body>
+  <h1>FCM 테스트 페이지</h1>
+
+  <button onclick="requestNotificationPermission()">알림 권한 요청</button>
+  <button onclick="initMessaging()">토큰 요청</button>
+
+
+ <div id="token-container"></div>
+ <div id="token-container2"></div>
+ <div id="token-container3"></div>
+  <script type="module" src="./main.js"></script>
+</body>
+
+    <script>
+        async function requestNotificationPermission() {
+          if (!("Notification" in window)) {
+            alert("이 브라우저는 알림을 지원하지 않습니다.");
+            return;
+          }
+
+          const permission = await Notification.requestPermission();
+          console.log("알림 권한 상태:", permission);
+
+          if (permission === "granted") {
+            alert("알림 권한이 허용되었습니다!");
+            // FCM 토큰 요청 등 후속 작업 가능
+          } else if (permission === "denied") {
+            alert("알림 권한이 거부되었습니다.\n설정에서 다시 허용해주세요.");
+          } else {
+            alert("알림 권한이 보류 중입니다.");
+          }
+        }
+
+    </script>
+</html>
