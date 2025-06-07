@@ -1,2 +1,0 @@
-from .coupon_repository import CouponRepository
-from .coupon_issue_repository import CouponIssueRepository

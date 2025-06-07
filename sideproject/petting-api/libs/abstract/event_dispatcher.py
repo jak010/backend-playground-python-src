@@ -20,4 +20,4 @@ class EventHandler:
     def emit(self):
         while not self.events.empty():
             event = self.events.get()
-            event.publish()
+            event.handle_event()
